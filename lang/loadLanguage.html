@@ -1,0 +1,15 @@
+<?php
+error_reporting(0);
+$langcode = "";
+if (isset($_SESSION['langcodex'])) {
+    $langcode = $_SESSION['langcodex'];
+} else if (isset($_COOKIE['langcodex'])) {
+    $langcode = $_COOKIE['langcodex'];
+} else {
+    $langcode = "en";
+}
+if (isset($_GET['show'])) {
+    $_GET['outcontents'] = '';
+    include $langcode.".html";
+} else include $langcode.".html";
+?>

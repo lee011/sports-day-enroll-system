@@ -1,0 +1,254 @@
+﻿<?php
+session_set_cookie_params(0, "/sportsDay/");
+session_start();
+include_once "lang/loadLanguage.html";
+function make_seed() {
+    list($usec, $sec) = explode(' ', microtime());
+    return (float) $sec + ((float) $usec * 100000);
+}
+srand(make_seed());
+$i = rand(1, 8);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?=$lang['page_title']?></title>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#F44336" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="/jQuery/2.0.3/jquery-2.0.3.min.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="imports.vulcanized.html" />
+    <link rel="stylesheet" href="StyleSheet.Main.min.css" />
+    <style is="custom-style">
+        paper-toolbar {
+            --paper-toolbar-background: var(--paper-red-500);
+        }
+
+        paper-button:not([raised]) {
+            color: var(--paper-red-500);
+        }
+
+        paper-button[raised] {
+            background-color: var(--paper-red-500);
+            color: white;
+        }
+
+        paper-button[disabled] {
+            background-color: var(--paper-grey-300);
+            color: white;
+        }
+
+        .blue-grey {
+            background-color: var(--paper-blue-grey-500);
+        }
+
+        .green {
+            background-color: var(--paper-green-500);
+        }
+
+        .indigo {
+            background-color: var(--paper-indigo-500);
+        }
+
+        .cyan {
+            background-color: var(--paper-cyan-500);
+        }
+
+        .teal {
+            background-color: var(--paper-teal-500);
+        }
+
+        .blue {
+            background-color: var(--paper-blue-500);
+        }
+
+        paper-card {
+            width: 100%;
+            color: white;
+            margin: 0.5rem 0 1rem 0;
+            --paper-card-header-text: {
+                color: white;
+            };
+        }
+
+        .card-image-hor {
+            width: 100px;
+            height: 150px;
+            background-size: cover;
+        }
+
+        .card-content-base {
+            @apply(--layout-flex);
+            float: left;
+        }
+
+        paper-card paper-button {
+            color: white !important;
+        }
+
+        paper-dropdown-menu.full-width {
+            width: 100%;
+        }
+
+        paper-toolbar {
+            transition: all 0.4s;
+        }
+
+        paper-spinner-lite {
+            --paper-spinner-color: var(--paper-red-500);
+        }
+
+        .green-text {
+            color: var(--paper-green-500);
+        }
+
+            .green-text iron-icon {
+                --iron-icon-fill-color: var(--paper-green-500);
+            }
+
+        .amber-text {
+            color: var(--paper-amber-500);
+        }
+
+            .amber-text iron-icon {
+                --iron-icon-fill-color: var(--paper-amber-500);
+            }
+
+        .red-text {
+            color: var(--paper-red-500);
+        }
+
+            .red-text iron-icon {
+                --iron-icon-fill-color: var(--paper-red-500);
+            }
+    </style>
+    <?php include_once "lang/loadLanguageScript.html" ?>
+    <script src="script.min.js"></script>
+    <script src="/amCharts/amcharts/amcharts.js"></script>
+    <script src="/amCharts/amcharts/serial.js"></script>
+    <?="<script src=\"https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=$lang[recaptcha_lang]\" async defer></script>"?>
+</head>
+<body class="fullbleed layout vertical" style="display: none;">
+    <div id="bg" style="background-image: url('img/bg<?=$i?>.jpg'); display: none"></div>
+    <paper-header-panel>
+        <paper-toolbar id="topbar">
+            <paper-icon-button id="backButton" onclick="history.back();" icon="arrow-back" style="display: none"></paper-icon-button>
+            <span class="title"><?=$lang['page_title']?></span>
+            <paper-icon-button icon="refresh" onclick="refreshCurrent()"></paper-icon-button>
+            <paper-icon-button icon="info-outline" onclick="dialog2.open()"></paper-icon-button>
+            <paper-menu-button horizontal-align="right">
+                <paper-icon-button icon="language" class="dropdown-trigger"></paper-icon-button>
+                <paper-menu class="dropdown-content">
+                    <paper-item onclick="location.replace('lang/setLanguage.html?langcode=en')">English</paper-item>
+                    <paper-item onclick="location.replace('lang/setLanguage.html?langcode=zh')">中文</paper-item>
+                </paper-menu>
+            </paper-menu-button>
+            <paper-progress class="fit" id="progressBar" indeterminate></paper-progress>
+        </paper-toolbar>
+        <div id="mainContent">
+
+        </div>
+    </paper-header-panel>
+    <paper-toast id="toast"></paper-toast>
+    <paper-dialog id="dialog1" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['dialog1_title']?></h2>
+        <p><?=$lang['dialog1_text']?></p>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog2" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['dialog2_title']?></h2>
+        <p>
+            <?=$lang['version_text']?>
+        </p>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog3" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['dialog3_title']?></h2>
+        <p><?=$lang['dialog3_text']?></p>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog4" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['dialog4_title']?></h2>
+        <p><?=$lang['dialog4_text']?></p>
+        <div class="buttons">
+            <paper-button dialog-dismiss autofocus><?=$lang['label_cancel']?></paper-button>
+            <paper-button dialog-confirm id="logoutLink"><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog5" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['modal5_title']?></h2>
+        <p class="dialog-text"></p>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog6" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['modal7_title']?></h2>
+        <p><?=$lang['modal7_text_1']?><span id="idlecount"></span><?=$lang['modal7_text_2']?></p>
+        <p><?=$lang['modal7_text_3']?></p>
+    </paper-dialog>
+    <paper-dialog id="dialog7" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['modal7_title']?></h2>
+        <p><?=$lang['modal8_text']?></p>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog8" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2>            
+            <?=$lang['dialog8_title']?>
+        </h2>
+        <paper-dialog-scrollable>
+            <div id="relayTeamContent"></div><br />
+            <div><?=$lang['label_team_notes']?></div>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+            <paper-button dialog-dismiss autofocus><?=$lang['label_cancel']?></paper-button>
+            <paper-button onclick="sendRelayTeam();"><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog9" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['modal5_title']?></h2>
+        <p class="dialog-text"></p>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog10" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['modal1_title']?></h2>
+        <div>
+            <?=$lang['dialog10_text']?>
+        </div>
+        <div class="buttons">
+            <paper-button dialog-dismiss autofocus><?=$lang['label_no']?></paper-button>
+            <paper-button dialog-confirm onclick="deleteRelayTeam();"><?=$lang['label_yes']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog11" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['dialog11_title']?></h2>
+        <div>
+            <?=$lang['dialog11_text']?>
+        </div>
+        <div class="buttons">
+            <paper-button dialog-dismiss autofocus><?=$lang['label_cancel']?></paper-button>
+            <paper-button dialog-confirm onclick="confirmRelayTeam();"><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog12" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['label_legend_title']?></h2>
+        <paper-dialog-scrollable>
+            <?=$lang['label_team_legend']?>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+            <paper-button dialog-confirm><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+</body>
+</html>

@@ -1,0 +1,94 @@
+﻿<?php
+    session_set_cookie_params(0, "/sportsDay/"); session_start();
+    include_once "lang/loadLanguage.html";
+    if (isset($_SESSION['username'])) {
+        $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+        mysqli_query($mysqli,"SET NAMES 'utf8'");
+        $arr = array();
+        $i = -1;
+        $lastclass = "";
+        if ($res = mysqli_query($mysqli, "select cls, sex, sum(evcount) as cnt from entries inner join userinfo on userinfo.id = entries.sid where userinfo.isDummy = 0 group by cls, sex")) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                if ($row["cls"] != $lastclass) {
+                    $i += 1;
+                    $lastclass = $row["cls"];
+                }
+                $arr[$i]["class"] = $row["cls"];
+                if ($row["sex"] == "M") $arr[$i]["boy"] = intval($row["cnt"]);
+                else if ($row["sex"] == "F") $arr[$i]["girl"] = intval($row["cnt"]);
+            }
+        }
+?>
+<div id="chart" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></div>
+<script>
+    var ch = AmCharts.makeChart("chart",{
+        "type": "serial",
+        "categoryField": "class",
+        "mouseWheelScrollEnabled": true,
+        "rotate": true,
+        "startEffect": "easeOutSine",
+        "creditsPosition": "bottom-right",
+        "fontFamily": "Roboto",
+        "categoryAxis": {
+            "autoRotateAngle": 0,
+            "gridPosition": "start",
+            "title": lang.chart_class
+        },
+        "processTimeout": 300,
+        "startDuration": 0.2,
+        "urlTarget": "_blank",
+        "startEffect": "easeOutSine",
+        "chartCursor": {
+            "enabled": true,
+            "animationDuration": 0.2,
+            "leaveAfterTouch": false
+        },
+        "legend": {
+            "enabled": true
+        },
+        "trendLines": [],
+        "graphs": [
+            {
+                "balloonText": "[[category]] [[title]]：[[value]]",
+                "fillAlphas": 1,
+                "id": "AmGraph-1",
+                "title": lang.chart_boys,
+                "type": "column",
+                "valueField": "boy"
+            },
+            {
+                "balloonText": "[[category]] [[title]]：[[value]]",
+                "fillAlphas": 1,
+                "id": "AmGraph-2",
+                "title": lang.chart_girls,
+                "type": "column",
+                "valueField": "girl"
+            }
+        ],
+        "guides": [],
+        "valueAxes": [
+            {
+                "id": "ValueAxis-1",
+                "title": lang.chart_count
+            }
+        ],
+        "allLabels": [],
+        "balloon": {
+            "animationDuration": 0.2,
+            "fadeOutDuration": 0.2
+        },
+        "titles": [
+            {
+                "id": "Title-1",
+                "size": 15,
+                "text": lang.chart_title + "<?=date_format(date_create('now'), $lang["date_format"])?>)"
+            }
+        ],
+        "dataProvider": <?=json_encode($arr)?>
+    });
+</script>
+<?php
+    } else {
+        header("HTTP/1.1 403 Forbidden");
+    }
+?>

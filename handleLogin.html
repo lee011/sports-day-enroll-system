@@ -1,0 +1,70 @@
+﻿<?php
+    session_set_cookie_params(0, "/sportsDay/"); 
+    session_start();
+    if (isset($_POST['u']) && isset($_POST['p']) && isset($_POST['c'])) {
+        if ($_POST['u'] != "" && $_POST['p'] != "" && $_POST['c'] != "") {
+            $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+            mysqli_query($mysqli,"SET NAMES 'utf8'");
+            if ($res0 = mysqli_query($mysqli,"select * from userinfo where cls = '" . $_POST['u'] . "' && number = " . $_POST['n'])) {
+                if (mysqli_num_rows($res0) > 0) {
+                    $a0 = mysqli_fetch_assoc($res0);
+                    if ($a0['isBlockedLogin'] == 1 && date_create("now") <= date_create($a0["blockLoginUntil"])) {
+                        $result = array('success' => -5);
+                    } else {
+                        if ($res = mysqli_query($mysqli,"select * from userinfo where cls = '" . $_POST['u'] . "' && number = " . $_POST['n'] . " && pwd = password('" . $_POST['p'] . "')")) {
+                            if (mysqli_num_rows($res) > 0) {
+                                $a = mysqli_fetch_assoc($res);
+                                if ($a['type'] != "needsInvestigation") {
+                                    $url = 'https://www.google.com/recaptcha/api/siteverify';
+                                    $fields = array('secret' => '6LcbNxMTAAAAADmjuLyhJq_Z-Pg5gP8p5XwRbx15', 'response' => $_POST['c']);
+                                    $fields_string = "";
+                                    //url-ify the data for the POST
+                                    foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+                                    rtrim($fields_string,'&');
+                                    //open connection
+                                    $ch = curl_init();
+                                    //set the url, number of POST vars, POST data
+                                    curl_setopt($ch,CURLOPT_URL,$url);
+                                    curl_setopt($ch,CURLOPT_POST,count($fields));
+                                    curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+                                    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+                                    //execute post
+                                    $result1 = curl_exec($ch);
+                                    if ($result1 != false) {
+                                        $j = json_decode($result1, true);
+                                        if ($j["success"] == true) {
+                                            mysqli_query($mysqli, sprintf("insert into loginlog(cls,number,srcip,sitedomain,attemptsuccess) values ('%s', %s,'%s','%s','%s')", $_POST['u'], $_POST['n'], $_SERVER['REMOTE_ADDR'], $_SERVER["SERVER_NAME"], "1"));
+                                            mysqli_query($mysqli, sprintf("update userinfo set loginFailedCount = 0, isBlockedLogin = 0, blockLoginUntil = NULL where cls = '%s' and number = %s", $_POST['u'], $_POST['n']));
+                                            $_SESSION['username'] = $a['id'];
+                                            $_SESSION['usertype'] = $a['type'];
+                                            $result = array('success' => 1, 'type' => $a['type']);
+                                        } else {
+                                            $result = array('success' => -4, 'error' => $j["error-codes"], 'jsontext' => $result1);
+                                        }
+                                    } else {
+                                        $result = array('success' => -4, 'error' => curl_error($ch), 'jsontext' => "");
+                                    }
+                                } else {
+                                    $result = array('success' => -3);
+                                }
+                            } else {
+                                mysqli_query($mysqli, sprintf("insert into loginlog(cls,number,srcip,sitedomain,attemptsuccess) values ('%s', %s,'%s','%s','%s')", $_POST['u'], $_POST['n'], $_SERVER['REMOTE_ADDR'], $_SERVER["SERVER_NAME"], "0"));
+                                mysqli_query($mysqli, sprintf("update userinfo set loginFailedCount = loginFailedCount + 1 where cls = '%s' and number = %s", $_POST['u'], $_POST['n']));
+                                $result = array('success' => 0);
+                            }
+                        } else {
+                            $result = array('success' => -1);
+                        }
+                    }
+                } else {
+                    mysqli_query($mysqli, sprintf("insert into loginlog(cls,number,srcip,sitedomain,attemptsuccess) values ('%s', %s,'%s','%s','%s')", $_POST['u'], $_POST['n'], $_SERVER['REMOTE_ADDR'], $_SERVER["SERVER_NAME"], "0"));
+                    mysqli_query($mysqli, sprintf("update userinfo set loginFailedCount = loginFailedCount + 1 where cls = '%s' and number = %s", $_POST['u'], $_POST['n']));
+                    $result = array('success' => 0);
+                }
+            }
+        } else {
+            $result = array('success' => -2);
+        }
+    }
+    print(json_encode($result));
+?>

@@ -1,0 +1,12 @@
+<?php
+session_set_cookie_params(0, "/sportsDay/"); 
+session_start();
+if (isset($_GET["langcode"])) {
+    $_SESSION['langcodex'] = $_GET["langcode"];
+    setcookie('langcodex', $_GET["langcode"], time() + (3600 * 24 * 30), "/");
+    header("Location: ../");
+} else {
+    var_dump($_SESSION);
+    var_dump($_COOKIE);
+}
+?>

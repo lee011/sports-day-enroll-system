@@ -1,0 +1,10 @@
+<?php
+error_reporting(0);
+$langcode = "en";
+if (isset($_SESSION['langcodex'])) {
+    $langcode = $_SESSION['langcodex'];
+} else if (isset($_COOKIE['langcodex'])) {
+    $langcode = $_COOKIE['langcodex'];
+}
+echo "<script src=\"lang/".$langcode.".js\"></script>";
+?>

@@ -1,0 +1,264 @@
+<?php
+$lang = array(
+    // index.html
+    'recaptcha_lang'        => 'en-US',
+    'page_title'            => 'Sports Day Enrollment System',
+    'js_disabled'           => 'Your browser must be updated to the newest version and JavaScript must be enabled in order to use the Sports Day Enrollment System.',
+    'menu_help'             => 'Help',
+    'menu_about'            => 'About',
+    'modal1_title'          => 'Confirm Deletion of Item',
+    'modal1_text_1'         => 'Are you sure to delete the item ',
+    'modal1_text_2'         => '? <span class="red-text">This action cannot be undone.</span>',
+    'dialog10_text'         => 'Are you sure to delete this team? This action cannot be undone.',
+    'dialog11_title'        => 'Confirm Joining Team',
+    'dialog11_text'         => 'You will accept this team joining request. This action cannot be undone after success.',
+    'modal2_title'          => 'Edit Item',
+    'label_yes'             => 'Yes',
+    'label_no'              => 'No',
+    'label_eid'             => 'Event ID', // also used in events.html
+    'label_option_boys_a'   => 'Boys A', // also used in events.html
+    'label_option_boys_b'   => 'Boys B', // also used in events.html
+    'label_option_boys_c'   => 'Boys C', // also used in events.html
+    'label_option_girls_a'  => 'Girls A', // also used in events.html
+    'label_option_girls_b'  => 'Girls B', // also used in events.html
+    'label_option_girls_c'  => 'Girls C', // also used in events.html
+    'label_ename'           => 'English Name', // also used in events.html
+    'label_cname'           => 'Chinese Name', // also used in events.html
+    'label_relay'           => 'Relay Event', // also used in events.html
+    'label_ok'              => 'OK', // also used in login.html
+    'label_cancel'          => 'Cancel',
+    'label_delete_ev'       => 'Delete Item',
+    'modal3_title'          => 'Edit Entries',
+    'modal4_title'          => 'Warning',
+    'modal4_text'           => '<p>You are using Internet Explorer which is not supported. We do not guarantee what will happen when using this browser.</p>
+<p>Please use <a href="https://www.google.com.hk/chrome/browser/desktop/index.html" target="_blank">Google Chrome</a> or <a href="http://mozilla.com.tw/firefox/new/" target="_blank">Firefox</a> to have the best user experiences.</p>',
+    'modal5_title'          => 'Selection Error',
+    'modal5_text'           => 'Duplicate selection. Please check and try again.',
+    'modal6_title'          => 'Locking Password',
+    'modal6_text'           => 'Please enter a locking password of length of at lease 6 characters.',
+    'label_validating'      => 'Validating...',
+    'modal7_title'          => 'Idling Notification',
+    'modal7_text_1'         => 'You have been idling for a long time. The system will be automatically logged out after ',
+    'modal7_text_2'         => ' seconds.',
+    'modal7_text_3'         => 'Moving the mouse in this window will reset the idling timer and dismiss this message.',
+    'modal8_text'           => 'You have been idling for a long time and the system have been automatically logged out. Please login again.',
+    'dialog1_title'         => 'Fields Not Filled',
+    'dialog1_text'          => 'All fields are required.',
+    'dialog2_title'         => 'About Sports Day Enrollment System',
+    'dialog3_title'         => 'Input Error',
+    'dialog3_text'          => 'All field errors must be corrected before continuing.',
+    'dialog4_title'         => 'Logout Comfirmation',
+    'dialog4_text'          => 'Are you sure to logout?',
+    'dialog8_title'         => 'Relay Team Formation',
+    'label_team_member'     => 'Select Member',
+    'loading_text'          => 'Loading...',
+
+    // login.html
+    'not_ssl_title'         => 'Using Unsecured Connection',
+    'not_ssl_text'          => 'You are using unsecured connection. Use secured connection in order to prevent any attack or interference between you and the server. In order to protect the security of information transmitted between you and the server, we strongly advise you to use secured connection.<br />
+Note: The secured connection does not support Windows XP (Except Firefox) or Android 2.3.6 and below. If you want to use secured connection even you are using Windows XP, please download the SSL certificates. Install steps please read the readme.html file inside the downloaded zip file. Please contact the developers if you are in doubt.',
+    'label_switch_to_ssl'   => 'Switch to secured connection',
+    'label_download_cert'   => 'Download certificates required',
+    'label_hide'            => 'Hide',
+    'announcement_title'    => 'Notice of Temporary Suspension of Service',
+    'announcement_text'     => 'Due to an electricial device check, the service will not be available from 21/03/2016, 06:30:00 to 21/03/2016, 17:30:00. We apologize for any inconvenience caused.<br />
+(Notice number 160226-C003, effective until 21/03/2016)',
+    'info_title'            => 'Your Information',
+    'label_cls_no'          => 'Class and Number: ', // also used in editEntry.html
+    'label_name'            => 'Name: ', // also used in editEntry.html
+    'label_grade'           => 'Grade: ', // also used in enroll.html, editEntry.html
+    'label_logout'          => 'Logout',
+    'enroll_title'          => 'Start Enroll',
+    'enroll_text'           => 'You can view and edit your entries in the enrollment page.',
+    'label_go'              => 'Go',
+    'stat_title'            => 'Enrollment Stats',
+    'stat_text'             => 'You can view the enroll count of all classes in the stats page.',
+    'manage_entries_title'  => 'Manage Entries',
+    'manage_entries_text'   => 'You can view and edit all students\' entries in the manage entries page.',
+    'manage_events_title'   => 'Manage Events',
+    'manage_events_text'    => 'You can manage events that can be enrolled.',
+    'label_login'           => 'Login',
+    'label_ssl_recommend'   => 'Secured Connection is recommended',
+    'label_class'           => 'Class', // also used in entries.html
+    'label_number'          => 'Number', // also used in entries.html
+    'label_pwd'             => 'Password',
+    'label_read_help'       => 'Please read the help file before use. (The <i class="material-icons" style="vertical-align: middle">more_vert</i> at the right-top corner &gt; Help)',
+    'label_recaptcha'       => 'Human-Robot Verification (provided by Google):',
+    'tooltip_recaptcha'     => 'Complete the human-robot verification to prevent robots entering the system. Answering of question(s) may be needed.',
+    'label_boys'            => 'Boys ', // also used in editEntry.html
+    'label_girls'           => 'Girls ', // also used in editEntry.html
+    'label_a_grade'         => 'A', // also used in editEntry.html
+    'label_b_grade'         => 'B', // also used in editEntry.html
+    'label_c_grade'         => 'C', // also used in editEntry.html
+    'label_no_grade'         => '(No grade specified)', // also used in editEntry.html
+    'helper_title'          => 'Apply for Officials',
+    'helper_text'           => 'You can apply for officials in the apply page.',
+    'label_name1'           => 'Name', // also used in editEntry.html
+    'label_not_in_svc'      => 'The service is currently unavailable.<br />
+If you have enquiries, please contact us on <a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">our Facebook page</a>.<br />
+We apologize for any inconvenience caused.',
+    'label_number_error'    => 'Must within 1 and 35',
+
+    // enroll.html
+    'label_select_items'    => 'Select Items',
+    'label_view_items'      => 'View Items',
+    'label_all_items'       => 'All Items',
+    'label_notes'           => 'Notes',
+    'label_eid_a'           => 'Event ID: ',
+    'label_expired'         => 'Enrollment period passed. You can only view the items.',
+    'label_last_updated_1'  => 'Your entries last updated at ',
+    'label_last_updated_2'  => '.', // also used in editEntry.html
+    'label_not_updated_a'   => 'Your entries have not been updated yet.',
+    'label_not_selected'    => 'Not Selected', // also used in editEntry.html
+    'label_indv_first'      => 'Individual Event - First', // also used in editEntry.html
+    'label_indv_second'     => 'Individual Event - Second', // also used in editEntry.html
+    'label_indv_third'      => 'Individual Event - Third', // also used in editEntry.html
+    'label_rel_all'         => 'Relay Events', // also used in editEntry.html
+    'label_see_notes'       => 'Please see Notes about filling in relay events entries.',
+    'label_update'          => 'Update',
+    'label_reset'           => 'Reset',
+    'label_relay_teams'     => 'Registered Relay Teams and Pending Team Joining Requests',
+    'label_locked_by_user'  => 'Entries locked by you. Please click the Lock Selections switch to unlock.',
+    'label_locked_by_admin' => 'Entries locked by admin. Please contact admin to unlock.',
+    'label_lock_sel'        => 'Lock Selections', // also used in editEntry.html
+    'tooltip_lock_sel'      => 'Locking selections can prevent others from modifying your entries.',
+    'label_not_started'     => 'Enrollment period not started yet. Please try again later.',
+    'label_notes_1'         => 'You can choose at most 3 individual events, but only at most 2 events of same type can be chosen.',
+    'label_notes_2'         => 'Enrolling in relay events: Click on the <iron-icon icon="add"></iron-icon> Relay Events button to create relay team and enroll in the event. If you want to delete a team, click on the <iron-icon icon="delete"></iron-icon> next to the team item. You can delete teams created by you only.',
+    'label_notes_2a'         => 'If you have pending team joining requests, please review on the above. Click on the confirm button <iron-icon icon="done"></iron-icon> to confirm joining. If you do not want to join, please contact the creator of the team.',
+    'label_notes_3'         => 'Enrollment period: From ',
+    'label_notes_4'         => ' to ',
+    'label_notes_5'         => '.',
+    'date_format'           => 'd/m/Y, H:i:s', // also used in editEntry.html
+    'label_confirmed'       => 'Confirmed',
+    'label_team_not_formed' => 'Team not formed',
+    'label_team_formed'     => 'Team formed',
+    'label_pending'         => 'Pending',
+    'label_creator'         => 'Created by: ',
+    'label_other_members'   => 'Other members:',
+    'label_team_notes'      => 'Confirmation is reqired for all other members to join the team.<br />A team is considered as enrolled only when all other members have confirmed to join the team.',
+    'label_legend_title'    => 'Legend',
+    'label_team_legend'     => 'If you are the creator of the team:<br />
+<span class="red-text"><iron-icon icon="close"></iron-icon>Team not formed</span> Not all other members have confirmed to join the team, and the team is not eligible to participate in the event.<br />
+<span class="green-text"><iron-icon icon="done"></iron-icon>Team formed</span> All other members have confirmed to join the team, and the team is eligible to participate in the event.<br />
+<span class="amber-text"><iron-icon icon="error-outline"></iron-icon>Pending</span> The member has not replied to your team joining request yet.<br />
+<span class="green-text"><iron-icon icon="done"></iron-icon>Confirmed</span> The member has accepted your team joining request.<br />
+If you are not the creator of the team:<br />
+<span class="red-text"><iron-icon icon="error-outline"></iron-icon>Pending</span> You has not replied to the team joining request sent by the creator of the team yet.<br />
+<span class="amber-text"><iron-icon icon="close"></iron-icon>Team not formed</span> You have accepted the team joining request, but not all other members have confirmed to join the team. The team is not eligible to participate in the event.<br />
+<span class="green-text"><iron-icon icon="done"></iron-icon>Team formed</span> You have accepted the team joining request, and all other members have confirmed to join the team. The team is eligible to participate in the event.',
+
+    // events.html
+    'label_current_items'   => 'Existing Items',
+    'label_add_item'        => 'Add Item',
+    'label_add'             => 'Add',
+    'label_no_item'         => 'No Item.',
+    'label_grade_a'         => 'Grade',
+
+    // editEntry.html
+    'label_not_found'       => 'No matching items found.',
+    'label_changing'        => 'You are modifying:',
+    'label_last_updated_a'  => 'Entries last updated at ',
+    'label_not_updated_a'   => 'Entries have not been updated yet.',
+    
+    // about.html
+    'version_title'         => 'Version',
+    'version_text'          => 'Ver. 2.0.0-beta<br />
+Updated on 23/08/2016<br />
+&copy; 2015-2016 Kelvin Lee & STMCSES. All rights reserved.',
+    'disclaimer_title'      => 'Disclaimer',
+    'disclaimer_text'       => 'The information on <b>Sha Tin Methodist College Sports Day Enrollment System ("The System")</b> is provided to you on an "AS IS" basis without any express or implied warranty of any kind and is provided for a general, indicative purpose only.  In particular, the developers does not make any express or implied warranty as to the accuracy, fitness for a particular purpose, non-infringement, reliability, security, timeliness or freedom from computer virus in relation to such contents.  The developers will not be liable for any errors in, omissions from, or misstatements or misrepresentations (whether express or implied) concerning any such information, and will not have or accept any liability, obligation or responsibility whatsoever for any loss, destruction or damage (including without limitation consequential loss, destruction or damage) however arising from or in respect of any use or misuse of or reliance on the information delivered on the system or inability to use the system.',
+    'privacy_policy_title'  => 'Privacy Policy',
+    'privacy_policy_text'   => 'Welcome to the <b>Sha Tin Methodist College Sports Day Enrollment System ("The System")</b>. The System will collect and/or store the following information when you use the System. Please be aware of how these information will be collected and/or stored.
+<ol style="list-style-type: upper-alpha">
+<li>
+Information that will be collected<br />
+Those information will be collected for logging in, enrollment and official applications.
+<ol style="list-style-type: decimal">
+<li>Your name, class and class number</li>
+<li>Your IP address (See part B)</li>
+</ol>
+Those information will be stored to a secured database that authentication is requied when accessing. Also, the database server has been equipped with a firewall to prevent attacks.
+</li>
+<li>
+Logging of IP address<br />
+In order to prevent malicious login and improve user experience, the System will log your IP address and login time when you attempt to login. Those information is only accessible by the developers and administrators of the System and will never expose to public.
+</li>
+<li>
+Notes of links<br />
+The System has been provided links to external websites. These websites does not included in the scope of this privacy policy. You should check the privacy policies of these websites manually.
+</li>
+<li>
+Updates of the privacy policy<br />
+The developers and administrators of the System has the rights to update the privacy policy without notification. The updated privacy policy will upload to the website.
+</li>
+</ol>',
+    
+    // entries.html
+    'label_export'          => 'Export All Entries',
+    'label_choose_ppl'      => 'Please enter class and number to edit entries:',
+    'label_select'          => 'Select',
+
+    // help.html
+    'support_browser_title' => 'What browsers are supported?',
+    'support_browser_text'  => 'These browsers have been tested and can be used: Google Chrome 35+、Firefox 31+.<br />
+You may also use other browsers. <b class="red-text">Internet Explorer may not be able to complete the human-robot verification. We also do not guarentee you can use the system smoothly on Microsoft Edge.</b>',
+    'how_to_login_title'    => 'How to login?',
+    'how_to_login_text'     => 'The login steps are shown below:<br />
+1. <b>Enter user credentials.</b> Please choose your class and enter your number.<br />
+2. <b>Enter password.</b> The password is case-sensitive.<br />
+3. <b>Perform human-robot verification.</b> Press I\'m not a robot box to confirm you are not a robot. You may be asked some questions by the system.<br />
+If you have forgotten your password, please send a private message to <a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">our Facebook page</a>. Please state "Password forgotten" in your message, and provide your student ID, class and class number. The password will send to you after successful verification.',
+    'how_to_enroll_title'   => 'How to enroll?',
+    'how_to_enroll_text'    => 'Select events you want to enroll on <a onclick="location.replace(\'#enroll\');">the enrollment page</a>.<br />
+For individual events, please fill in the entries from the first to third (For system records and counting only, the entries may come in any order). Selection should not be duplicated. If a particular item is removed, other items will move to the front.<br />
+For relay events, please check the items. Please read the Notes before entering these entries.<br />
+You can view your entries, but cannot edit, after the enrollment period.',
+    'have_error_title'      => 'What should I do when something wrong happened?',
+    'have_error_text'       => 'Please contact the developers for bug fixes or solutions. Please have a detailed description and a screenshot of the problem for the developers to investigate it.<br />
+Get support on <a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">our Facebook page</a>.',
+
+    // helper.html
+    'label_helper_select'   => 'Apply for Officials',
+    'label_helper_list'     => 'Applicants List',
+    'label_select_post'     => 'Post',
+    'label_post'            => 'Post',
+    'label_helper_note'     => 'Note: Posts will be allocated by first-come-first-served basis if quota of certain posts exceeded. Senior form students have a higher priority.',
+    'label_list_sort'       => 'This list is first sorted by post name in ascending order, and then updated time in ascending order.'
+);
+$helpers = array(
+    'off' => 'Official Stand Recorders',
+    'pri' => 'Prize Presentation Helper',
+    'mar' => 'Marshals',
+    'mak' => 'Marksman Assistants',
+    'tim' => 'Time-keepers',
+    'pos' => 'Position Assistants',
+    'fin' => 'Finishing Recorders',
+    'run' => 'Runners',
+    'sto' => 'Stoke Judge Assistants',
+    'dis' => 'Display Board Helpers',
+    'fal' => 'False Start Rope Helper',
+    'che' => 'Helpers for Cheering Team Competition',
+    'res' => 'Reserved Helpers'
+);
+?>
+<?php if(isset($_GET['outcontents'])){ ?>
+English Language File
+<table style="border-collapse: collapse; border: 1px solid black;">
+    <tr style="border-collapse: collapse; border: 1px solid black;">
+        <th>Key</th>
+        <td>Value</td>
+    </tr>
+<?php
+foreach ($lang as $k => $v) { ?>
+    <tr style="border-collapse: collapse; border: 1px solid black;">
+        <th><?=$k?></th>
+        <td><pre><?=htmlspecialchars($v, ENT_NOQUOTES|ENT_HTML401)?></pre></td>
+    </tr>
+<?php
+}
+?>
+</table>
+<?php
+}
+?>

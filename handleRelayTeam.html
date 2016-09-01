@@ -1,0 +1,20 @@
+﻿<?php
+    session_set_cookie_params(0, "/sportsDay/"); session_start();
+    if (isset($_SESSION['username'])) {
+        $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+        mysqli_query($mysqli,"SET NAMES 'utf8'");
+        $membersImp = implode("','", array($_POST["member1"], $_POST["member2"], $_POST["member3"], $_POST["member4"]));
+        if ($res0 = mysqli_query($mysqli,"select * from relayteams where forEv = '$_POST[ev]' and (member1 in ('$membersImp') or member2 in ('$membersImp') or member3 in ('$membersImp') or member4 in ('$membersImp'))")) {
+            if (mysqli_num_rows($res0) != 0) {
+                $result = array('success' => -1);
+            } else {
+                if ($res = mysqli_query($mysqli,"insert into relayteams (forEv, member1, member2, member3, member4) values ('$_POST[ev]', '$membersImp')")) {
+                    $result = array('success' => 1);
+                } else {
+                    $result = array('success' => 0, 'error' => array('message' => mysqli_error($mysqli), 'code' => mysqli_errno($mysqli)));
+                }
+            }
+        }
+    }
+    print(json_encode($result));
+?>

@@ -1,0 +1,80 @@
+﻿<?php
+session_set_cookie_params(0, "/sportsDay/");
+session_start();
+include_once "lang/loadLanguage.html";
+if (isset($_SESSION['username'])) {
+    $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+    mysqli_query($mysqli,"SET NAMES 'utf8'");
+    if ($res = mysqli_query($mysqli,"select * from userinfo where id = '".$_SESSION['username']."' ")) {
+        $a = mysqli_fetch_assoc($res);
+        if ($res0 = mysqli_query($mysqli,"select min(number) from userinfo where cls = '$a[cls]' and sex = '$a[sex]' ")) {
+            $min = mysqli_fetch_row($res0)[0];
+        }
+        if ($a["grade"] == "N") {
+            header("HTTP/1.1 403 Forbidden");
+        } else {
+            $s = "";
+            switch ($a["sex"]) {
+                case "F":
+                    $s = "G";
+                    break;
+                case "M":
+                    $s = "B";
+                    break;
+            }
+            if ($res1 = mysqli_query($mysqli,"select * from events where grade = '". $s . $a["grade"] ."' and type = 'TR' order by id asc")) {
+?>
+<paper-dropdown-menu required id="relayItemSelect" label="<?=$lang['label_rel_all']?>" style="width: 100%; float: left">
+    <paper-listbox class="dropdown-content">
+<?php
+                while ($ex = mysqli_fetch_assoc($res1)) { ?>
+        <paper-item data-id="<?=$ex['id']?>"><?=$ex['ename']?> <?=$ex['cname']?></paper-item>
+<?php
+                } ?>
+    </paper-listbox>
+</paper-dropdown-menu>
+<?php
+            }
+?>
+<template id="memberInputTemplate">
+    <?php
+        if ($res2 = mysqli_query($mysqli,"select * from userinfo where cls = '$a[cls]' and sex = '$a[sex]' order by number asc")) {
+    ?>
+    <paper-dropdown-menu vertical-align="bottom" required class="memberSelect" label="<?=$lang['label_team_member']?>" style="width: 100%;">
+        <paper-listbox class="dropdown-content">
+<?php
+                while ($b = mysqli_fetch_assoc($res2)) { ?>
+            <paper-item data-id="<?=$b['id']?>"><?=$b['cls'].$b['number']?>, <?=$b['ename']?> <?=$b['cname']?></paper-item>
+<?php
+                } ?>
+        </paper-listbox>
+    </paper-dropdown-menu>
+    <?php
+        }
+    ?>
+</template>
+<div class="memberInput">
+
+</div>
+<div class="memberInput">
+
+</div>
+<div class="memberInput">
+
+</div>
+<div class="memberInput">
+
+</div>
+<script>
+    var x = $(".memberInput").toArray();
+    for (var i = 0; i < x.length; i++) {
+        x[i].appendChild(document.importNode(memberInputTemplate.content, true));
+    }
+    $(".memberSelect").get(0).contentElement.selected = <?=$a['number']?>-<?=$min?>;
+    $(".memberSelect").get(0).disabled = true;
+</script>
+<?php 
+        }
+    }
+}
+?>

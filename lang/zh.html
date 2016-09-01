@@ -1,0 +1,264 @@
+<?php
+$lang = array(
+    // index.html
+    'recaptcha_lang'        => 'zh-HK',
+    'page_title'            => '陸運會報名系統',
+    'js_disabled'           => '要使用陸運會報名系統，您的瀏覽器必須更新為最新版本和啟用 JavaScript。',
+    'menu_help'             => '說明',
+    'menu_about'            => '關於',
+    'modal1_title'          => '確定項目刪除',
+    'modal1_text_1'         => '您確定要刪除項目 ',
+    'modal1_text_2'         => '？<span class="red-text">此動作無法復原。</span>',
+    'dialog10_text'         => '您確定要刪除此隊伍嗎？此動作無法復原。',
+    'dialog11_title'        => '確認加入隊伍',
+    'dialog11_text'         => '您將確認此加入隊伍的請求。此動作一旦成功執行，將無法復原。',
+    'modal2_title'          => '編輯項目',
+    'label_yes'             => '是',
+    'label_no'              => '否',
+    'label_eid'             => '項目編碼', // also used in events.html
+    'label_option_boys_a'   => '男子甲組', // also used in events.html
+    'label_option_boys_b'   => '男子乙組', // also used in events.html
+    'label_option_boys_c'   => '男子丙組', // also used in events.html
+    'label_option_girls_a'  => '女子甲組', // also used in events.html
+    'label_option_girls_b'  => '女子乙組', // also used in events.html
+    'label_option_girls_c'  => '女子丙組', // also used in events.html
+    'label_ename'           => '英文名稱', // also used in events.html
+    'label_cname'           => '中文名稱', // also used in events.html
+    'label_relay'           => '接力項目', // also used in events.html
+    'label_grade_a'         => '組別',
+    'label_ok'              => '確定', // also used in login.html
+    'label_cancel'          => '取消',
+    'label_delete_ev'       => '刪除項目',
+    'modal3_title'          => '編輯報名資訊',
+    'modal4_title'          => '警告',
+    'modal4_text'           => '<p>您正在使用 Internet Explorer。Internet Explorer 並不為我們所支援。我們並不保證網站在此瀏覽器上的行為。</p>
+<p>請改用 <a href="https://www.google.com.hk/chrome/browser/desktop/index.html" target="_blank">Google Chrome</a> 或 <a href="http://mozilla.com.tw/firefox/new/" target="_blank">Firefox</a> 等瀏覽器，以取得更佳瀏覽效果。</p>',
+    'modal5_title'          => '項目選取錯誤',
+    'modal5_text'           => '選取項目重複。請檢查輸入並重試。',
+    'modal6_title'          => '鎖定密碼',
+    'modal6_text'           => '請輸入 6 個字或以上的鎖定密碼。',
+    'label_validating'      => '正在驗證...',
+    'modal7_title'          => '閒置通知',
+    'modal7_text_1'         => '您已閒置多時。系統將於 ',
+    'modal7_text_2'         => ' 秒後自動登出。',
+    'modal7_text_3'         => '在此視窗移動滑鼠即可重設閒置計時器及關閉此訊息。',
+    'modal8_text'           => '您已閒置多時。系統已自動登出。請重新登入系統。',
+    'dialog1_title'         => '輸入不完整',
+    'dialog1_text'          => '必須填寫所有欄位。',
+    'dialog2_title'         => '關於 陸運會報名系統',
+    'dialog3_title'         => '輸入錯誤',
+    'dialog3_text'          => '必須修正所有欄位錯誤方可繼續。',
+    'dialog4_title'         => '確定登出',
+    'dialog4_text'          => '您確定要登出嗎？',
+    'dialog8_title'         => '組成接力隊伍',
+    'label_team_member'     => '選取成員',
+    'loading_text'          => '正在載入...',
+
+    // login.html
+    'not_ssl_title'         => '正在使用非加密連線',
+    'not_ssl_text'          => '您正在使用非加密連線。使用加密連線可確保您和伺服器之間的通訊不受任何攻擊、竊聽或干擾。<br />
+注意：加密連線並不支援 Windows XP 或更舊（Firefox 除外）及 Android 2.3.6 以下系統。如您是 Windows XP 使用者但仍然想使用加密連線，請按下方連結下載 SSL 憑證並安裝在 [信任的根憑證授權]。安裝步驟請參閱下載的壓縮檔的 readme.html。如有疑問，請洽詢系統開發人員。',
+    'label_switch_to_ssl'   => '立即轉用加密連線',
+    'label_download_cert'   => '下載所需憑證',
+    'label_hide'            => '隱藏',
+    'announcement_title'    => '暫停使用公告',
+    'announcement_text'     => '由於需進行電力裝置檢查，本系統將於以下時間暫停服務：2016年03月21日, 06:30:00 到 2016年03月21日, 17:30:00。不便之處，敬請見諒。<br />（公告號 160226-C003，有效日期至 2016年03月21日）',
+    'info_title'            => '您的資訊',
+    'label_cls_no'          => '班別與學號: ', // also used in editEntry.html
+    'label_name'            => '姓名: ', // also used in editEntry.html
+    'label_grade'           => '組別: ', // also used in enroll.html, editEntry.html
+    'label_logout'          => '登出',
+    'enroll_title'          => '進入報名頁面',
+    'enroll_text'           => '您可在報名頁面查閱與編輯您的報名項目。',
+    'label_go'              => '進入',
+    'stat_title'            => '報名統計',
+    'stat_text'             => '您可在報名統計頁面查看所有班別的報名人次統計圖表。',
+    'manage_entries_title'  => '管理報名資料',
+    'manage_entries_text'   => '您可在管理報名資料頁面查閱與編輯所有學生之報名項目。',
+    'manage_events_title'   => '管理項目資料',
+    'manage_events_text'    => '您可在此處管理報名的項目資料。',
+    'label_login'           => '登入',
+    'label_ssl_recommend'   => '為了保障資訊傳送安全性，建議您使用加密連線',
+    'label_class'           => '班別', // also used in entries.html
+    'label_number'          => '學號', // also used in entries.html
+    'label_pwd'             => '密碼',
+    'label_read_help'       => '使用前請先閱讀使用說明。(右上方 <i class="material-icons" style="vertical-align: middle">more_vert</i> &gt; 說明)',
+    'label_recaptcha'       => '人機驗證（由 Google 提供）：',
+    'tooltip_recaptcha'     => '請執行人機驗證以阻止自動程式進入系統。如有需要，請回答驗證問題。',
+    'label_boys'            => '男子', // also used in editEntry.html
+    'label_girls'           => '女子', // also used in editEntry.html
+    'label_a_grade'         => '甲組', // also used in editEntry.html
+    'label_b_grade'         => '乙組', // also used in editEntry.html
+    'label_c_grade'         => '丙組', // also used in editEntry.html
+    'label_no_grade'        => '未指定組別', // also used in editEntry.html
+    'helper_title'          => '工作人員報名',
+    'helper_text'           => '您可在工作人員報名頁面登記成為工作人員。',
+    'label_name1'           => '姓名', // also used in editEntry.html
+    'label_not_in_svc'      => '系統目前正暫停服務。<br />
+如您有任何疑問，請在<a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">我們的 Facebook 專頁</a>聯絡我們。<br />
+為您造成不便，我們謹此致歉。',
+    'label_number_error'    => '必須為 1 至 35 以內',
+
+    // enroll.html
+    'label_select_items'    => '選取報名項目',
+    'label_view_items'      => '檢視報名項目',
+    'label_all_items'       => '所有項目',
+    'label_notes'           => '報名須知',
+    'label_eid_a'           => '項目編碼: ',
+    'label_expired'         => '報名時限已過。您現在只有查看權限。',
+    'label_last_updated_1'  => '您的報名資訊於 ',
+    'label_last_updated_2'  => ' 最後更新。', // also used in editEntry.html
+    'label_not_updated'     => '您的報名資訊從未更新過。',
+    'label_not_selected'    => '不選取', // also used in editEntry.html
+    'label_indv_first'      => '個人項目 - 第一', // also used in editEntry.html
+    'label_indv_second'     => '個人項目 - 第二', // also used in editEntry.html
+    'label_indv_third'      => '個人項目 - 第三', // also used in editEntry.html
+    'label_rel_all'         => '接力項目', // also used in editEntry.html
+    'label_see_notes'       => '有關接力項目的填寫，請看 [報名須知]。',
+    'label_update'          => '更新',
+    'label_reset'           => '重設',
+    'label_relay_teams'     => '已登記的接力隊伍及等候回覆的加入隊伍請求',
+    'label_locked_by_user'  => '報名項目已由您鎖定。請按下方 [鎖定項目選擇] 開關解除鎖定。',
+    'label_locked_by_admin' => '報名項目已由管理員鎖定。請聯絡管理員解除鎖定。',
+    'label_lock_sel'        => '鎖定項目選擇', // also used in editEntry.html
+    'tooltip_lock_sel'      => '鎖定項目選擇可防止其他人擅自更改報名項目。',
+    'label_not_started'     => '報名時段還沒開始，請稍後再次瀏覽。',
+    'label_notes_1'         => '你最多可選取 3 項個人項目，但同一類別的項目最多只可選取兩項。',
+    'label_notes_2'         => '接力項目的填寫：請按下上方 [<iron-icon icon="add"></iron-icon> 接力項目] 按鈕以建立接力隊伍並報名參加項目。如需刪除隊伍，請在上方列出的隊伍中，按下 <iron-icon icon="delete"></iron-icon> 進行刪除。請注意，只能刪除由您建立的隊伍。',
+    'label_notes_2a'        => '如您有正在等候回覆的接力隊伍加入請求，請在上方檢視。按右方確認按鈕 <iron-icon icon="done"></iron-icon> 確認加入。若無意參加，請聯絡隊伍建立者。',
+    'label_notes_3'         => '報名時段：',
+    'label_notes_4'         => ' 到 ',
+    'label_notes_5'         => '。',
+    'date_format'           => 'Y年m月d日, H:i:s', // also used in editEntry.html
+    'label_confirmed'       => '已確認',
+    'label_team_not_formed' => '隊伍未組成',
+    'label_team_formed'     => '隊伍已組成',
+    'label_pending'         => '等候回覆',
+    'label_creator'         => '建立者：',
+    'label_other_members'   => '其他隊員：',
+    'label_team_notes'      => '隊伍中的其他隊員必須先確認加入隊伍。<br />接力隊伍需在其他隊員均已確認加入隊伍時才視為成功報名。',
+    'label_legend_title'    => '圖例',
+    'label_team_legend'     => '如您為隊伍建立者：<br />
+<span class="red-text"><iron-icon icon="close"></iron-icon>隊伍未組成</span> 非所有其他成員皆已確認加入隊伍。隊伍未能參加該項目。<br />
+<span class="green-text"><iron-icon icon="done"></iron-icon>隊伍已組成</span> 所有其他成員皆已確認加入隊伍。隊伍可參加該項目。<br />
+<span class="amber-text"><iron-icon icon="error-outline"></iron-icon>等候回覆</span> 該成員未回覆您的加入隊伍請求。<br />
+<span class="green-text"><iron-icon icon="done"></iron-icon>已確認</span> 該成員已確認加入隊伍。<br />
+如您非隊伍建立者：<br />
+<span class="red-text"><iron-icon icon="error-outline"></iron-icon>等候回覆</span> 您未回覆隊伍建立者的加入隊伍請求。<br />
+<span class="amber-text"><iron-icon icon="close"></iron-icon>隊伍未組成</span> 您已確認加入隊伍，但非所有其他成員皆已確認加入隊伍。隊伍未能參加該項目。<br />
+<span class="green-text"><iron-icon icon="done"></iron-icon>隊伍已組成</span> 您已確認加入隊伍，且所有其他成員皆已確認加入隊伍。隊伍可參加該項目。',
+
+    // events.html
+    'label_current_items'   => '現有項目',
+    'label_add_item'        => '新增項目',
+    'label_add'             => '加入',
+    'label_no_item'         => '沒有項目。',
+    'label_grade_a'         => '組別',
+
+    // editEntry.html
+    'label_not_found'       => '沒有相符項目。',
+    'label_changing'        => '您正在修改：',
+    'label_last_updated_a'  => '報名資訊於 ',
+    'label_not_updated_a'   => '報名資訊從未更新過。',
+    
+    // about.html
+    'version_title'         => '版本資訊',
+    'version_text'          => '版本 2.0.0-beta<br />
+更新日期 23/08/2016<br />
+&copy; 2015-2016 Kelvin Lee & 沙田循道衛理中學陸/水運會系統。著作權所有，並保留一切權利。',
+    'disclaimer_title'      => '免責聲明',
+    'disclaimer_text'       => '<b>沙田循道衛理中學陸運會報名系統（「系統」）</b>中的所有資訊均以「現況」形式提供的，並無任何種類的明示或暗示的保證，以及只作一般性質及說明用途。尤其是，對於該等內容的準確性、可靠性、安全性及時間性，系統開發人員概不作任何明示或默示的保證，系統開發人員亦不作出任何明示或暗示保證該等內容適合使用，並無侵權或不含電腦病毒。對該等資料，系統開發人員不會就任何錯誤、遺漏、或錯誤陳述或失實陳述（不論明示或默示的）承擔任何責任。對任何因使用或不當使用或依據系統所載的或經系統的任何資料或不能使用系統而引致或所涉及的任何損失、毀壞或損害（包括但不限於相應而生的損失、毀壞或損害），系統開發人員概不承擔任何法律責任、義務或責任。',
+    'privacy_policy_title'  => '隱私政策',
+    'privacy_policy_text'   => '歡迎您使用<b>沙田循道衛理中學陸運會報名系統（下稱「系統」）</b>。當您使用系統時，系統將收集及／或儲存以下資料。請您留意下面列出之資料的收集及／或儲存方式。<br />
+<ol style="list-style-type: cjk-ideographic">
+<li>
+收集的資料<br />
+系統會收集下列資料，以供您登入、提交報名或工作人員登記之用。
+<ol style="list-style-type: decimal">
+<li>您的姓名、班別和學號</li>
+<li>您登入時所使用的 IP 位址（另見第二項）</li>
+</ol>
+該等資料存放在已保全的資料庫中，存取此等資料者必須登入。另資料庫伺服器並已配備防火牆，免受入侵。
+</li>
+<li>
+有關 IP 位址之記錄<br />
+為防止惡意登入和攻擊、改善使用體驗，無論您是否成功登入，系統都會在您嘗試登入時記錄您的 IP 位址和登入時間。此等資料只供系統開發人員及管理員內部查閱，並不得對外公布。
+</li>
+<li>
+有關外部連結的須知<br />
+系統網站設有外部連結前往系統以外的網站。請注意該等網站並不受本隱私政策規管，您需要自行查閱該等網站的隱私政策。
+</li>
+<li>
+有關本政策的修改<br />
+系統開發人員或管理員有權隨時更新此隱私政策，但該等人士作出更改時並不需要事先通知。修改後的隱私政策會上載在網站上。
+</li>
+</ol>',
+    
+    // entries.html
+    'label_export'          => '匯出所有資料',
+    'label_choose_ppl'      => '請輸入班別與學號以編輯報名項目：',
+    'label_select'          => '選取',
+
+    // help.html
+    'support_browser_title' => '支援的瀏覽器為何？',
+    'support_browser_text'  => '以下的瀏覽器已經測試，並確定可以使用：Google Chrome 35+、Firefox 31+。<br />
+其他新款瀏覽器應該都可以使用。<b class="red-text">Internet Explorer 可能無法進行人機驗證。我們亦不保證在 Microsoft Edge 上能正常運作。</b>',
+    'how_to_login_title'    => '如何登入？',
+    'how_to_login_text'     => '登入步驟如下：<br />
+1. <b>輸入使用者資訊。</b>請選取班別與輸入學號。<br />
+2. <b>輸入密碼。</b>注意密碼的大小寫必須完全準確。<br />
+3. <b>進行人機驗證。</b>按下 [我不是自動程式] 方塊以確認並非自動程式正在使用此系統。如有需要，請回答驗證問題。<br />
+如您忘記密碼，請立刻<a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">前往我們的 Facebook 專頁</a>傳送私訊。請註明忘記密碼，並附上您的學生編號、班別與學號。經管理員驗證身分後即會把密碼傳送給您。',
+    'how_to_enroll_title'   => '如何報名？',
+    'how_to_enroll_text'    => '在<a onclick="location.replace(\'#enroll\');">報名頁面</a>上選取您欲報名的項目。<br />
+個人項目方面，您需要由第一個項目順序填寫到第三個項目（此僅為方便系統紀錄，實際項目次序不限）。選取項目不可重複。當取消選取某個項目時，其他項目會依序移前。<br />
+接力項目方面，請勾選您報名的項目。請務必在填寫此欄位前查閱報名須知。<br />
+當報名時段過後，您仍然能在報名頁面檢視您已報名的項目，但您不能夠再更改項目。',
+    'have_error_title'      => '發生了錯誤該怎麼辦？',
+    'have_error_text'       => '請聯絡系統開發者以修正錯誤或取得解決方法。提交錯誤報告時，請儘量詳盡描述，並提供錯誤截圖，以便開發人員研究問題。<br />
+<a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">前往我們的 Facebook 專頁</a>以取得支援。',
+
+    // helper.html
+    'label_helper_select'   => '登記工作人員',
+    'label_helper_list'     => '已登記名單',
+    'label_select_post'     => '工作人員',
+    'label_post'            => '崗位 (只有英文)',
+    'label_helper_note'     => '請注意：如果登記工作人員的人數多於該崗位的名額，將依先到先得方式分配崗位。高年級同學可獲優先分配。',
+    'label_list_sort'       => '此列表以崗位名稱順序，後以更新日期順序排序。'
+);
+$helpers = array(
+    'off' => 'Official Stand Recorders',
+    'pri' => 'Prize Presentation Helper',
+    'mar' => 'Marshals',
+    'mak' => 'Marksman Assistants',
+    'tim' => 'Time-keepers',
+    'pos' => 'Position Assistants',
+    'fin' => 'Finishing Recorders',
+    'run' => 'Runners',
+    'sto' => 'Stroke Judge Assistants',
+    'dis' => 'Display Board Helpers',
+    'fal' => 'False Start Rope Helper',
+    'che' => 'Helpers for Cheering Team Competition',
+    'res' => 'Reserved Helpers'
+);
+?>
+<?php if(isset($_GET['outcontents'])){ ?>
+中文語系檔
+<table style="border-collapse: collapse; border: 1px solid black;">
+    <tr style="border-collapse: collapse; border: 1px solid black;">
+        <th>索引鍵</th>
+        <td>值</td>
+    </tr>
+<?php
+foreach ($lang as $k => $v) { ?>
+    <tr style="border-collapse: collapse; border: 1px solid black;">
+        <th><?=$k?></th>
+        <td><pre><?=htmlspecialchars($v, ENT_NOQUOTES|ENT_HTML401)?></pre></td>
+    </tr>
+<?php
+}
+?>
+</table>
+<?php
+}
+?>

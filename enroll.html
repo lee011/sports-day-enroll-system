@@ -1,0 +1,258 @@
+﻿<?php
+session_set_cookie_params(0, "/sportsDay/");
+session_start();
+include_once "lang/loadLanguage.html";
+if (isset($_SESSION['username'])) {
+    $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+    mysqli_query($mysqli,"SET NAMES 'utf8'");
+    if ($res = mysqli_query($mysqli,"select * from config")) {
+        $a = mysqli_fetch_assoc($res);
+        $dn = date_create("now");
+        $ds = date_create($a["enrollstart"]);
+        $dl = date_create($a["enrollend"]);
+        $expired = ($dn > $dl);
+        $started = ($dn > $ds);
+    }
+    if ($res = mysqli_query($mysqli,"select * from userinfo where id = '$_SESSION[username]' ")) {
+        $a = mysqli_fetch_assoc($res);
+        if ($a["grade"] == "N") {
+            header("HTTP/1.1 403 Forbidden");
+        } else {
+            $s = "";
+            switch ($a["sex"]) {
+                case "F":
+                    $s = "G";
+                    break;
+                case "M":
+                    $s = "B";
+                    break;
+            }
+            if ($res1 = mysqli_query($mysqli,"select * from events where grade = '$s$a[grade]' order by type asc, id asc")) {
+                $j = 0;
+                $e = array();
+                while ($ex = mysqli_fetch_array($res1)) {
+                    $e[$j] = $ex;
+                    $j++;
+                }
+            }
+            if ($res2 = mysqli_query($mysqli,"select * from entries where sid = '$a[id]' ")) {
+                $n = mysqli_fetch_assoc($res2);
+                $indv = explode(",", $n["indveids"]);
+                $d = ($n["updateTime"] == '0000-00-00 00:00:00' ? "" : date_create($n["updateTime"]));
+                $rel = explode(",", $n["releids"]);
+            }
+?>
+<?php
+if (!$started) {
+?>
+<paper-material style="background-color: #F44336; color: white; padding: 10px" elevation="1">
+    <?=$lang['label_not_started']?>
+</paper-material>
+<?php
+} else {
+?>
+<?php
+if ($expired) {
+?>
+<paper-material style="background-color: #F44336; color: white; padding: 10px" elevation="1">
+    <?=$lang['label_expired']?>
+</paper-material>
+<?php
+}
+?>
+<p><?php if ($d == "") { echo $lang['label_not_updated']; } else { ?><?=$lang['label_last_updated_1']?><?=date_format($d, $lang['date_format'])?><?=$lang['label_last_updated_2']?><?php } ?></p>
+<paper-dropdown-menu id="firstiev" class="entryInput" label="<?=$lang['label_indv_first']?>" <?php if ($expired) echo " disabled"; ?>>
+    <?php
+        $si = 0;
+        if ($indv[0] != "") {
+            foreach ($e as $ie) {
+                if ($ie['type'] == "TI" || $ie['type'] == "F") {
+                    $si++;
+                    if ($indv[0] == $ie['id']) break;
+                }
+            }
+        }
+    ?>
+    <paper-listbox class="dropdown-content" <?php if ($si != -1) echo "selected=\"$si\""; ?>>
+        <paper-item data-type="" data-id=""><?=$lang['label_not_selected']?></paper-item>
+        <?php
+        foreach ($e as $ie) {
+            if ($ie['type'] == "TI" || $ie['type'] == "F") {
+        ?>
+        <paper-item data-type="<?=$ie['type']?>" data-id="<?=$ie['id']?>"><?=$ie['ename']?> <?=$ie['cname']?></paper-item>
+        <?php
+            }
+        }
+        ?>
+    </paper-listbox>
+</paper-dropdown-menu>
+<paper-dropdown-menu id="secondiev" class="entryInput" label="<?=$lang['label_indv_second']?>" <?php if ($indv[0] == '' || $expired) echo " disabled"; ?>>
+    <?php
+        $si = 0;
+        if ($indv[1] != "") {
+            foreach ($e as $ie) {
+                if ($ie['type'] == "TI" || $ie['type'] == "F") {
+                    $si++;
+                    if ($indv[1] == $ie['id']) break;
+                }
+            }
+        }
+    ?>
+    <paper-listbox class="dropdown-content" <?php if ($si != -1) echo "selected=\"$si\""; ?>>
+        <paper-item data-type="" data-id=""><?=$lang['label_not_selected']?></paper-item>
+        <?php
+        foreach ($e as $ie) {
+            if ($ie['type'] == "TI" || $ie['type'] == "F") {
+        ?>
+        <paper-item data-type="<?=$ie['type']?>" data-id="<?=$ie['id']?>"><?=$ie['ename']?> <?=$ie['cname']?></paper-item>
+        <?php
+            }
+        }
+        ?>
+    </paper-listbox>
+</paper-dropdown-menu>
+<paper-dropdown-menu id="thirdiev" class="entryInput" label="<?=$lang['label_indv_third']?>" <?php if ($indv[1] == '' || $expired) echo " disabled"; ?>>
+    <?php
+        $si = 0;
+        if ($indv[2] != "") {
+            foreach ($e as $ie) {
+                if ($ie['type'] == "TI" || $ie['type'] == "F") {
+                    $si++;
+                    if ($indv[2] == $ie['id']) break;
+                }
+            }
+        }
+    ?>
+    <paper-listbox class="dropdown-content" <?php if ($si != -1) echo "selected=\"$si\""; ?>>
+        <paper-item data-type="" data-id=""><?=$lang['label_not_selected']?></paper-item>
+        <?php
+        foreach ($e as $ie) {
+            if ($ie['type'] == "TI" || $ie['type'] == "F") {
+        ?>
+        <paper-item data-type="<?=$ie['type']?>" data-id="<?=$ie['id']?>"><?=$ie['ename']?> <?=$ie['cname']?></paper-item>
+        <?php
+            }
+        }
+        ?>
+    </paper-listbox>
+</paper-dropdown-menu><br /><br />
+<paper-button id="updateEntries" onclick="sendEntries()" raised<?php if ($expired) echo " disabled"; ?>><iron-icon icon="save"></iron-icon> <?=$lang['label_update']?></paper-button>
+<paper-button id="resetEntries" onclick="resetEntry()" raised<?php if ($expired) echo " disabled"; ?>><iron-icon icon="settings-backup-restore"></iron-icon> <?=$lang['label_reset']?></paper-button>
+<paper-button onclick="showRelayTeamDialog()" raised<?php if ($expired) echo " disabled"; ?>><iron-icon icon="add"></iron-icon> <?=$lang['label_rel_all']?></paper-button>
+<h2><?=$lang['label_relay_teams']?></h2>
+<paper-button onclick="dialog12.open()" raised><iron-icon icon="description"></iron-icon> <?=$lang['label_legend_title']?></paper-button>
+<?php
+    if ($res3 = mysqli_query($mysqli, <<<Q
+select relayteams.*, events.ename as evename, events.cname as evcname, u1.cls as cls, u1.number as number1, u2.number as number2, u3.number as number3, u4.number as number4, u1.ename as ename1, u2.ename as ename2, u3.ename as ename3, u4.ename as ename4, u1.cname as cname1, u2.cname as cname2, u3.cname as cname3, u4.cname as cname4 from relayteams
+inner join userinfo u1 on relayteams.member1 = u1.id
+inner join userinfo u2 on relayteams.member2 = u2.id
+inner join userinfo u3 on relayteams.member3 = u3.id
+inner join userinfo u4 on relayteams.member4 = u4.id
+inner join events on relayteams.forEv = events.id
+where member1 = '$a[id]' or member2 = '$a[id]' or member3 = '$a[id]' or member4 = '$a[id]'
+Q
+)) {
+        if (mysqli_num_rows($res3) == 0) {
+            echo "<p>$lang[label_no_item]</p>";
+        } else { ?>
+<paper-listbox id="relayTeamsList">
+    <?php
+        while ($team = mysqli_fetch_assoc($res3)) {
+            switch ($a['id']) {
+                case $team['member1']:
+                    $pos = 1; break;
+                case $team['member2']:
+                    $pos = 2; break;
+                case $team['member3']:
+                    $pos = 3; break;
+                case $team['member4']:
+                    $pos = 4; break;
+            }
+    ?>
+    <paper-item data-id="<?=$team['id']?>" data-pos="<?=$pos?>">
+        <paper-item-body two-line>
+            <div>
+                <?php
+                    if (($team['member2'] == $a['id'] && $team['accepted2'] == 1) ||
+                        ($team['member3'] == $a['id'] && $team['accepted3'] == 1) ||
+                        ($team['member4'] == $a['id'] && $team['accepted4'] == 1)) {
+                        if ($team['accepted2'] == 1 && $team['accepted3'] == 1 && $team['accepted4'] == 1) {
+                            echo "<span class=\"green-text\"><iron-icon icon=\"done\"></iron-icon>$lang[label_team_formed]</span>";
+                        } else {
+                            echo "<span class=\"amber-text\"><iron-icon icon=\"close\"></iron-icon>$lang[label_team_not_formed]</span>";
+                        }
+                    } else if (($team['member2'] == $a['id'] && $team['accepted2'] == 0) ||
+                        ($team['member3'] == $a['id'] && $team['accepted3'] == 0) ||
+                        ($team['member4'] == $a['id'] && $team['accepted4'] == 0)) {
+                        echo "<span class=\"red-text\"><iron-icon icon=\"error-outline\"></iron-icon>$lang[label_pending]</span>";
+                    } else if ($team['member1'] == $a['id']) {
+                        if ($team['accepted2'] == 1 && $team['accepted3'] == 1 && $team['accepted4'] == 1) {
+                            echo "<span class=\"green-text\"><iron-icon icon=\"done\"></iron-icon>$lang[label_team_formed]</span>";
+                        } else {
+                            echo "<span class=\"red-text\"><iron-icon icon=\"close\"></iron-icon>$lang[label_team_not_formed]</span>";
+                        }
+                    }
+                ?>
+                <?=$team['evename']?> <?=$team['evcname']?>
+            </div>
+            <div secondary>
+                <?=$lang['label_creator']?><?=$team['cls']?><?=$team['number1']?>, <?=$team['ename1']?> <?=$team['cname1']?><br />
+                <?=$lang['label_other_members']?><br />
+                <?php
+                    if ($team['member1'] == $a['id']) {
+                        if ($team['accepted2'] == 1) { echo "<span class=\"green-text\"><iron-icon icon=\"done\"></iron-icon>$lang[label_confirmed]</span>"; }
+                        else { echo "<span class=\"amber-text\"><iron-icon icon=\"error-outline\"></iron-icon>$lang[label_pending]</span>"; }
+                    }
+                ?>
+                <?=$team['cls']?><?=$team['number2']?>, <?=$team['ename2']?> <?=$team['cname2']?><br />
+                <?php
+                    if ($team['member1'] == $a['id']) {
+                        if ($team['accepted3'] == 1) { echo "<span class=\"green-text\"><iron-icon icon=\"done\"></iron-icon>$lang[label_confirmed]</span>"; }
+                        else { echo "<span class=\"amber-text\"><iron-icon icon=\"error-outline\"></iron-icon>$lang[label_pending]</span>"; }
+                    }
+                ?>
+                <?=$team['cls']?><?=$team['number3']?>, <?=$team['ename3']?> <?=$team['cname3']?><br />
+                <?php
+                    if ($team['member1'] == $a['id']) {
+                        if ($team['accepted4'] == 1) { echo "<span class=\"green-text\"><iron-icon icon=\"done\"></iron-icon>$lang[label_confirmed]</span>"; }
+                        else { echo "<span class=\"amber-text\"><iron-icon icon=\"error-outline\"></iron-icon>$lang[label_pending]</span>"; }
+                    }
+                ?>
+                <?=$team['cls']?><?=$team['number4']?>, <?=$team['ename4']?> <?=$team['cname4']?>
+            </div>
+        </paper-item-body>
+        <?php if ($team['member1'] == $a['id']) { ?>
+        <paper-icon-button icon="delete" onclick="dialog10.open()"></paper-icon-button>
+        <?php } ?>
+        <?php if (($team['member2'] == $a['id'] && $team['accepted2'] == 0) ||
+                        ($team['member3'] == $a['id'] && $team['accepted3'] == 0) ||
+                        ($team['member4'] == $a['id'] && $team['accepted4'] == 0)) { ?>
+        <paper-icon-button icon="done" onclick="dialog11.open()"></paper-icon-button>
+        <?php } ?>
+    </paper-item>
+    <?php
+        }
+    ?>
+</paper-listbox>
+<?php
+        }
+    }
+?>
+<h2><?=$lang['label_notes']?></h2>
+<ol>
+    <li><?=$lang['label_notes_1']?></li>
+    <li><?=$lang['label_notes_2']?></li>
+    <li><?=$lang['label_notes_2a']?></li>
+    <li><?=$lang['label_notes_3']?><?=date_format($ds, $lang['date_format'])?><?=$lang['label_notes_4']?><?=date_format($dl, $lang['date_format'])?><?=$lang['label_notes_5']?></li>
+</ol>
+<script>
+    loggedin = true;
+</script>
+<?php
+            }
+        }
+    }
+} else {
+    http_response_code(403);
+}
+?>

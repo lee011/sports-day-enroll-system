@@ -1,0 +1,146 @@
+﻿<?php
+    session_set_cookie_params(0, "/sportsDay/"); 
+    session_start();
+    include_once "lang/loadLanguage.html";
+    if (isset($_SESSION['username'])) {
+        $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+        mysqli_query($mysqli,"SET NAMES 'utf8'");
+        if ($res = mysqli_query($mysqli,"select * from userinfo where id = '".$_SESSION['username']."' ")) {
+            $a = mysqli_fetch_assoc($res);
+            switch ($a['sex']) {
+                case "F":
+                    $s = $lang['label_girls'];
+                    break;
+                case "M":
+                    $s = $lang['label_boys'];
+                    break;
+            }
+            switch ($a['grade']) {
+                case "A":
+                    $g = $lang['label_a_grade'];
+                    break;
+                case "B":
+                    $g = $lang['label_b_grade'];
+                    break;
+                case "C":
+                    $g = $lang['label_c_grade'];
+                    break;
+                case "N":
+                    $g = $lang['label_no_grade'];
+                    break;
+            }
+?>
+<script>
+    usertype = "<?=$a['type']?>";
+    loggedin = true;
+</script>
+<?php
+            if ($res1 = mysqli_query($mysqli,"select * from config")) {
+                $a1 = mysqli_fetch_assoc($res1);
+                if ($a1['showNotice']) {
+?>
+<paper-card heading="<?=$langcode=='en'?$a1['noticeTitleE']:$a1['noticeTitleC']?>" class="red" id="announce">
+    <div class="card-content">
+        <p>
+            <?=$langcode=='en'?$a1['noticeContentE']:$a1['noticeContentC']?>
+        </p>
+    </div>
+    <div class="card-actions">
+        <paper-button onclick="$('#announce').slideUp(200)">
+            <iron-icon icon="close"></iron-icon>
+            <?=$lang['label_hide']?>
+        </paper-button>
+    </div>
+</paper-card>
+<?php
+                }
+            }
+?>
+<paper-card heading="<?=$lang['info_title']?>" class="blue-grey">
+    <div class="card-content">
+        <?=$lang['label_cls_no']?><?=$a['cls']?> (<?=$a['number']?>)<br />
+        <?=$lang['label_name']?><?=$a['ename']?> <?=$a['cname']?><br />
+        <?=$lang['label_grade']?><?=$s?><?=$g?>
+    </div>
+    <div class="card-actions">
+        <paper-button onclick="dialog4.open()">
+            <iron-icon icon="cancel"></iron-icon>
+            <?=$lang['label_logout']?>
+        </paper-button>
+    </div>
+</paper-card>
+<?php if ($a['grade'] != "N") { ?>
+<paper-card heading="<?=$lang['enroll_title']?>" class="blue">
+    <div class="card-content">
+        <p><?=$lang['enroll_text']?></p>
+    </div>
+    <div class="card-actions">
+        <paper-button onclick="jQuery(backButton).show(); history.pushState({l:'enroll'},''); loadEnrollPage();">
+            <iron-icon icon="arrow-forward"></iron-icon>
+            <?=$lang['label_go']?>
+        </paper-button>
+    </div>
+</paper-card>
+<?php } ?>
+<paper-card heading="<?=$lang['stat_title']?>" class="indigo">
+    <div class="card-content">
+        <p><?=$lang['stat_text']?></p>
+    </div>
+    <div class="card-actions">
+        <paper-button onclick="jQuery(backButton).show(); history.pushState({l:'stat'},''); loadStatPage();">
+            <iron-icon icon="arrow-forward"></iron-icon>
+            <?=$lang['label_go']?>
+        </paper-button>
+    </div>
+</paper-card>
+<paper-card heading="<?=$lang['helper_title']?>" class="cyan">
+    <div class="card-content">
+        <p><?=$lang['helper_text']?></p>
+    </div>
+    <div class="card-actions">
+        <paper-button>
+            <iron-icon icon="arrow-forward"></iron-icon>
+            <?=$lang['label_go']?>
+        </paper-button>
+    </div>
+</paper-card>
+<?php if ($a['type'] == "helper" || $a['type'] == "admin") { ?>
+<paper-card heading="<?=$lang['manage_entries_title']?>" class="teal">
+    <div class="card-content">
+        <p><?=$lang['manage_entries_text']?></p>
+    </div>
+    <div class="card-actions">
+        <paper-button>
+            <iron-icon icon="arrow-forward"></iron-icon>
+            <?=$lang['label_go']?>
+        </paper-button>
+    </div>
+</paper-card>
+<?php
+ }
+            if ($a['type'] == "admin") {
+?>
+<paper-card heading="<?=$lang['manage_events_title']?>" class="green">
+    <div class="card-content">
+        <p><?=$lang['manage_events_text']?></p>
+    </div>
+    <div class="card-actions">
+        <paper-button>
+            <iron-icon icon="arrow-forward"></iron-icon>
+            <?=$lang['label_go']?>
+        </paper-button>
+    </div>
+</paper-card>
+<?php
+        }
+?>
+<script>
+    $(bg).fadeOut();
+    loggedin = true;
+</script>
+<?php
+        }
+    } else {
+        header("Location: login.html");
+    }
+?>

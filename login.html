@@ -1,0 +1,72 @@
+﻿<?php
+session_set_cookie_params(0, "/sportsDay/"); 
+session_start();
+include_once "lang/loadLanguage.html";
+function make_seed() {
+    list($usec, $sec) = explode(' ', microtime());
+    return (float) $sec + ((float) $usec * 100000);
+}
+srand(make_seed());
+if (isset($_SESSION['username'])) {
+    header("Location: main.html");
+} else {
+$i = rand(1, 8);
+?>
+<paper-material elevation="2" id="loginPanel">
+    <h2 style="text-align: center"><?=$lang['label_login']?></h2>
+    <paper-dropdown-menu label="<?=$lang['label_class']?>" id="c" style="width: 49%; display: inline-block">
+        <paper-listbox class="dropdown-content">
+            <paper-item>1A</paper-item>
+            <paper-item>1B</paper-item>
+            <paper-item>1C</paper-item>
+            <paper-item>1D</paper-item>
+            <paper-item>2A</paper-item>
+            <paper-item>2B</paper-item>
+            <paper-item>2C</paper-item>
+            <paper-item>2D</paper-item>
+            <paper-item>3A</paper-item>
+            <paper-item>3B</paper-item>
+            <paper-item>3C</paper-item>
+            <paper-item>3D</paper-item>
+            <paper-item>4A</paper-item>
+            <paper-item>4B</paper-item>
+            <paper-item>4C</paper-item>
+            <paper-item>4D</paper-item>
+            <paper-item>5A</paper-item>
+            <paper-item>5B</paper-item>
+            <paper-item>5C</paper-item>
+            <paper-item>5D</paper-item>
+            <paper-item>6A</paper-item>
+            <paper-item>6B</paper-item>
+            <paper-item>6C</paper-item>
+            <paper-item>6D</paper-item>
+        </paper-listbox>
+    </paper-dropdown-menu>
+    <paper-input label="<?=$lang['label_number']?>" auto-validate error-message="<?=$lang['label_number_error']?>" allowed-pattern="[0-9]*" max="99" min="1" id="n" type="number" style="width: 49%; display: inline-block"></paper-input>
+    <paper-input label="<?=$lang['label_pwd']?>" id="p" type="password"></paper-input>
+    <div id="recaptchacontainer"></div>
+    <paper-button raised disabled id="loginButton"><?=$lang['label_ok']?></paper-button>
+</paper-material>
+
+<script>
+    $(bg).fadeOut(function () {
+        $(bg).css("background-image", "url('img/bg<?=$i?>.jpg')").fadeIn();
+    });
+    loggedin = false;
+    if (recaptchaAvailable) {
+        grecaptcha.render(recaptchacontainer, {
+            "sitekey": "6LcbNxMTAAAAAJqw8rngqBFCofxVjUNdfzay7Rxj",
+            "callback": function (v) {
+                captchaValue = v;
+                loginButton.disabled = false;
+            },
+            "expired-callback": function () {
+                captchaValue = "";
+                loginButton.disabled = true;
+            }
+        });
+    }
+</script>
+<?php
+    }
+?>
