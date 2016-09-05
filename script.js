@@ -1,8 +1,11 @@
-﻿/*string*/ var usertype;
-/*bool*/   var loggedin = false,
-               reset = false;
-/*int*/    var idleTime = 0,
-               timeout = 600;
+﻿/*string*/ var usertype,
+               captchaValue       = "";
+/*bool*/   var loggedin           = false,
+               reset              = false,
+               recaptchaAvailable = false;
+/*int*/    var idleTime           = 0,
+               timeout            = 600;
+
 jQuery.holdReady(true);
 $(function () {
     var idleInterval = setInterval(timerIncrement, 1000);
@@ -609,9 +612,6 @@ function confirmRelayTeam() {
         }
     });
 }
-
-var captchaValue = "";
-var recaptchaAvailable = false;
 
 var onloadCallback = function () {
     recaptchaAvailable = true;

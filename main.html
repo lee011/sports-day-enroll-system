@@ -56,84 +56,46 @@
                 }
             }
 ?>
-<paper-card heading="<?=$lang['info_title']?>" class="blue-grey">
-    <div class="card-content">
-        <?=$lang['label_cls_no']?><?=$a['cls']?> (<?=$a['number']?>)<br />
-        <?=$lang['label_name']?><?=$a['ename']?> <?=$a['cname']?><br />
-        <?=$lang['label_grade']?><?=$s?><?=$g?>
-    </div>
-    <div class="card-actions">
-        <paper-button onclick="dialog4.open()">
-            <iron-icon icon="cancel"></iron-icon>
-            <?=$lang['label_logout']?>
-        </paper-button>
-    </div>
-</paper-card>
+<h2><?=$lang['info_title']?></h2>
+<p>
+    <?=$lang['label_cls_no']?><?=$a['cls']?> (<?=$a['number']?>)<br />
+    <?=$lang['label_name']?><?=$a['ename']?> <?=$a['cname']?><br />
+    <?=$lang['label_grade']?><?=$s?><?=$g?>
+</p>
+<p><?=$lang['label_select_fn']?></p>
+<paper-listbox>
+    <paper-icon-item onclick="dialog4.open()">
+        <iron-icon item-icon icon="cancel"></iron-icon>
+        <?=$lang['label_logout']?>
+    </paper-icon-item>
 <?php if ($a['grade'] != "N") { ?>
-<paper-card heading="<?=$lang['enroll_title']?>" class="blue">
-    <div class="card-content">
-        <p><?=$lang['enroll_text']?></p>
-    </div>
-    <div class="card-actions">
-        <paper-button onclick="jQuery(backButton).show(); history.pushState({l:'enroll'},''); loadEnrollPage();">
-            <iron-icon icon="arrow-forward"></iron-icon>
-            <?=$lang['label_go']?>
-        </paper-button>
-    </div>
-</paper-card>
+    <paper-icon-item onclick="jQuery(backButton).show(); history.pushState({ l: 'enroll' }, ''); loadEnrollPage();">
+        <iron-icon item-icon icon="create"></iron-icon>
+        <paper-item-body two-line>
+            <div><?=$lang['enroll_title']?></div>
+            <div secondary><?=$lang['enroll_text']?></div>
+        </paper-item-body>
+    </paper-icon-item>
 <?php } ?>
-<paper-card heading="<?=$lang['stat_title']?>" class="indigo">
-    <div class="card-content">
-        <p><?=$lang['stat_text']?></p>
-    </div>
-    <div class="card-actions">
-        <paper-button onclick="jQuery(backButton).show(); history.pushState({l:'stat'},''); loadStatPage();">
-            <iron-icon icon="arrow-forward"></iron-icon>
-            <?=$lang['label_go']?>
-        </paper-button>
-    </div>
-</paper-card>
-<paper-card heading="<?=$lang['helper_title']?>" class="cyan">
-    <div class="card-content">
-        <p><?=$lang['helper_text']?></p>
-    </div>
-    <div class="card-actions">
-        <paper-button>
-            <iron-icon icon="arrow-forward"></iron-icon>
-            <?=$lang['label_go']?>
-        </paper-button>
-    </div>
-</paper-card>
+    <paper-icon-item onclick="jQuery(backButton).show(); history.pushState({l:'stat'},''); loadStatPage();">
+        <iron-icon item-icon icon="assessment"></iron-icon>
+        <paper-item-body two-line>
+            <div><?=$lang['stat_title']?></div>
+            <div secondary><?=$lang['stat_text']?></div>
+        </paper-item-body>
+    </paper-icon-item>
 <?php if ($a['type'] == "helper" || $a['type'] == "admin") { ?>
-<paper-card heading="<?=$lang['manage_entries_title']?>" class="teal">
-    <div class="card-content">
-        <p><?=$lang['manage_entries_text']?></p>
-    </div>
-    <div class="card-actions">
-        <paper-button>
-            <iron-icon icon="arrow-forward"></iron-icon>
-            <?=$lang['label_go']?>
-        </paper-button>
-    </div>
-</paper-card>
+    <paper-icon-item>
+        <iron-icon item-icon icon="list"></iron-icon>
+        <paper-item-body two-line>
+            <div><?=$lang['manage_entries_title']?></div>
+            <div secondary><?=$lang['manage_entries_text']?></div>
+        </paper-item-body>
+    </paper-icon-item>
 <?php
  }
-            if ($a['type'] == "admin") {
 ?>
-<paper-card heading="<?=$lang['manage_events_title']?>" class="green">
-    <div class="card-content">
-        <p><?=$lang['manage_events_text']?></p>
-    </div>
-    <div class="card-actions">
-        <paper-button>
-            <iron-icon icon="arrow-forward"></iron-icon>
-            <?=$lang['label_go']?>
-        </paper-button>
-    </div>
-</paper-card>
-<?php
-        }
-?>
+</paper-listbox>
 <script>
     $(bg).fadeOut();
     loggedin = true;
