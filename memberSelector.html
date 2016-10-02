@@ -1,0 +1,84 @@
+﻿<?php
+session_set_cookie_params(0, "/sportsDay/");
+session_start();
+include_once "lang/loadLanguage.html";
+require "http_response_code.html";
+if (isset($_SESSION['username'])) {
+    $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+    mysqli_query($mysqli,"SET NAMES 'utf8'");
+    if ($res = mysqli_query($mysqli,"select * from userinfo where id = '".$_POST['s']."' ")) {
+        $a = mysqli_fetch_assoc($res);
+        if ($res0 = mysqli_query($mysqli,"select min(number) from userinfo where cls = '$a[cls]' and sex = '$a[sex]' ")) {
+            $min = mysqli_fetch_row($res0)[0];
+        }
+        if ($a["grade"] == "N") {
+            header("HTTP/1.1 403 Forbidden");
+        } else {
+            $s = "";
+            switch ($a["sex"]) {
+                case "F":
+                    $s = "G";
+                    break;
+                case "M":
+                    $s = "B";
+                    break;
+            }
+            if ($res2 = mysqli_query($mysqli,"select * from userinfo where cls = '$a[cls]' and sex = '$a[sex]' order by number asc")) {
+    ?>
+    <paper-dropdown-menu required class="memberSelectX" label="<?=$lang['label_team_member']?>">
+        <paper-listbox class="dropdown-content">
+            <?php
+                while ($b = mysqli_fetch_assoc($res2)) {
+            ?>
+            <paper-item data-id="<?=$b['id']?>"><?=$b['cls'].$b['number']?>, <?=$b['ename']?> <?=$b['cname']?></paper-item>
+            <?php
+                }
+            ?>
+        </paper-listbox>
+    </paper-dropdown-menu>
+<?php
+    if ($_POST['seq'] != '1') {
+        if ($res3 = mysqli_query($mysqli,"select * from relayteams where id = '$_POST[t]'")) {
+            $v = mysqli_fetch_assoc($res3); ?>
+<paper-dropdown-menu id="statusSelect" label="<?=$lang['label_status']?>">
+    <paper-listbox selected="<?=$v["accepted$_POST[seq]"]?>" class="dropdown-content">
+        <paper-icon-item class="red-text">
+            <iron-icon item-icon icon="error-outline"></iron-icon>
+            <?=$lang['label_pending']?>
+        </paper-icon-item>
+        <paper-icon-item class="green-text">
+            <iron-icon item-icon icon="done"></iron-icon>
+            <?=$lang['label_confirmed']?>
+        </paper-icon-item>
+    </paper-listbox>
+</paper-dropdown-menu>
+<?php
+        }
+    }
+?>
+<script>
+    $(".memberSelectX").on("iron-select", function () {
+        var x = $("#teamsList tr[data-id=" + $(dialog13).data('teamid') + "]").attr("data-members");
+        var sp = x.split(",");
+        var i;
+        for (i = 0; i < sp.length; i++) {
+            if (i + 1 != $(dialog13).data('membernum')) {
+                if ($($(this).get(0).selectedItem).data("id") == sp[i]) {
+                    $(this).get(0).invalid = true;
+                    $(this).get(0).errorMessage = lang.duplicate_selection;
+                    return null;
+                }
+            }
+        }
+        $(this).get(0).invalid = false;
+    });
+</script>
+<script>
+    $(".memberSelectX").get(0).contentElement.selected = <?=$a['number']?>-<?=$min?>;
+</script>
+    <?php
+            }
+        }
+    }
+}
+?>

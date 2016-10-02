@@ -1,0 +1,159 @@
+<?php
+session_set_cookie_params(0, "/sportsDay/");
+session_start();
+include_once "lang/loadLanguage.html";
+require "http_response_code.html";
+if (isset($_SESSION['username'])) {
+    $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+    mysqli_query($mysqli,"SET NAMES 'utf8'");
+    if ($res = mysqli_query($mysqli,"select * from userinfo where cls = '$_POST[c]' && number = $_POST[n]")) {
+        if (mysqli_num_rows($res) > 0) {
+        $a = mysqli_fetch_assoc($res);
+        if ($a["grade"] == "N") {
+            header("HTTP/1.1 403 Forbidden");
+        } else {
+            $s = "";
+            switch ($a["sex"]) {
+                case "F":
+                    $s = "G";
+                    break;
+                case "M":
+                    $s = "B";
+                    break;
+            }
+            switch ($a['sex']) {
+                case "F":
+                    $s1 = $lang['label_girls'];
+                    break;
+                case "M":
+                    $s1 = $lang['label_boys'];
+                    break;
+            }
+            switch ($a['grade']) {
+                case "A":
+                    $g1 = $lang['label_a_grade'];
+                    break;
+                case "B":
+                    $g1 = $lang['label_b_grade'];
+                    break;
+                case "C":
+                    $g1 = $lang['label_c_grade'];
+                    break;
+                case "N":
+                    $g1 = $lang['label_no_grade'];
+                    break;
+            }
+            if ($res1 = mysqli_query($mysqli,"select * from events where grade = '$s$a[grade]' order by type asc, id asc")) {
+                $j = 0;
+                $e = array();
+                while ($ex = mysqli_fetch_array($res1)) {
+                    $e[$j] = $ex;
+                    $j++;
+                }
+            }
+            if ($res2 = mysqli_query($mysqli,"select * from entries where sid = '$a[id]' ")) {
+                $n = mysqli_fetch_assoc($res2);
+                $indv = explode(",", $n["indveids"]);
+                $d = ($n["updateTime"] == '0000-00-00 00:00:00' ? "" : date_create($n["updateTime"]));
+                $rel = explode(",", $n["releids"]);
+            }
+?>
+<h2><?=$lang['label_changing']?></h2>
+<p>
+    <?=$lang['label_cls_no']?><?=$a['cls']?> (<?=$a['number']?>)<br />
+    <?=$lang['label_name']?><?=$a['ename']?> <?=$a['cname']?><br />
+    <?=$lang['label_grade']?><?=$s1?><?=$g1?>
+</p>
+<p><?php if ($d == "") { echo $lang['label_not_updated']; } else { ?><?=$lang['label_last_updated_a']?><?=date_format($d, $lang['date_format'])?><?=$lang['label_last_updated_2']?><?php } ?></p>
+<paper-dropdown-menu id="firstiev" class="entryInput" label="<?=$lang['label_indv_first']?>" <?php if ($expired) echo " disabled"; ?>>
+    <?php
+        $si = 0;
+        if ($indv[0] != "") {
+            foreach ($e as $ie) {
+                if ($ie['type'] == "TI" || $ie['type'] == "F") {
+                    $si++;
+                    if ($indv[0] == $ie['id']) break;
+                }
+            }
+        }
+    ?>
+    <paper-listbox class="dropdown-content" <?php if ($si != -1) echo "selected=\"$si\""; ?>>
+        <paper-item data-type="" data-id=""><?=$lang['label_not_selected']?></paper-item>
+        <?php
+        foreach ($e as $ie) {
+            if ($ie['type'] == "TI" || $ie['type'] == "F") {
+        ?>
+        <paper-item data-type="<?=$ie['type']?>" data-id="<?=$ie['id']?>"><?=$ie['ename']?> <?=$ie['cname']?></paper-item>
+        <?php
+            }
+        }
+        ?>
+    </paper-listbox>
+</paper-dropdown-menu>
+<paper-dropdown-menu id="secondiev" class="entryInput" label="<?=$lang['label_indv_second']?>" <?php if ($indv[0] == '' || $expired) echo " disabled"; ?>>
+    <?php
+        $si = 0;
+        if ($indv[1] != "") {
+            foreach ($e as $ie) {
+                if ($ie['type'] == "TI" || $ie['type'] == "F") {
+                    $si++;
+                    if ($indv[1] == $ie['id']) break;
+                }
+            }
+        }
+    ?>
+    <paper-listbox class="dropdown-content" <?php if ($si != -1) echo "selected=\"$si\""; ?>>
+        <paper-item data-type="" data-id=""><?=$lang['label_not_selected']?></paper-item>
+        <?php
+        foreach ($e as $ie) {
+            if ($ie['type'] == "TI" || $ie['type'] == "F") {
+        ?>
+        <paper-item data-type="<?=$ie['type']?>" data-id="<?=$ie['id']?>"><?=$ie['ename']?> <?=$ie['cname']?></paper-item>
+        <?php
+            }
+        }
+        ?>
+    </paper-listbox>
+</paper-dropdown-menu>
+<paper-dropdown-menu id="thirdiev" class="entryInput" label="<?=$lang['label_indv_third']?>" <?php if ($indv[1] == '' || $expired) echo " disabled"; ?>>
+    <?php
+        $si = 0;
+        if ($indv[2] != "") {
+            foreach ($e as $ie) {
+                if ($ie['type'] == "TI" || $ie['type'] == "F") {
+                    $si++;
+                    if ($indv[2] == $ie['id']) break;
+                }
+            }
+        }
+    ?>
+    <paper-listbox class="dropdown-content" <?php if ($si != -1) echo "selected=\"$si\""; ?>>
+        <paper-item data-type="" data-id=""><?=$lang['label_not_selected']?></paper-item>
+        <?php
+        foreach ($e as $ie) {
+            if ($ie['type'] == "TI" || $ie['type'] == "F") {
+        ?>
+        <paper-item data-type="<?=$ie['type']?>" data-id="<?=$ie['id']?>"><?=$ie['ename']?> <?=$ie['cname']?></paper-item>
+        <?php
+            }
+        }
+        ?>
+    </paper-listbox>
+</paper-dropdown-menu><br /><br />
+<paper-button id="updateEntries" onclick="sendEntriesA()" raised><iron-icon icon="save"></iron-icon> <?=$lang['label_update']?></paper-button>
+<paper-button id="resetEntries" onclick="resetEntry()" raised><iron-icon icon="settings-backup-restore"></iron-icon> <?=$lang['label_reset']?></paper-button>
+<script>
+    $(editArea).data("id", "<?=$a['id']?>");
+    $(editArea).attr("data-id", "<?=$a['id']?>");
+</script>
+<?php
+        }
+    } else { ?>
+<p><?=$lang['label_not_found']?></p>
+<?php
+    }
+    }
+} else {
+    http_response_code(401);
+}
+?>

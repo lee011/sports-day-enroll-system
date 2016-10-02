@@ -1,11 +1,13 @@
 ﻿<?php
     session_set_cookie_params(0, "/sportsDay/"); session_start();
+    require "http_response_code.html";
+    include_once "lang/loadLanguage.html";
     if (isset($_SESSION['username'])) {
         if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'helper') {
             $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
             mysqli_query($mysqli,"SET NAMES 'utf8'");
             if ($res = mysqli_query($mysqli,<<<Q
-select relayteams.*, events.ename as evename, events.cname as evcname, u1.cls as cls, u1.number as number1, u2.number as number2, u3.number as number3, u4.number as number4, u1.ename as ename1, u2.ename as ename2, u3.ename as ename3, u4.ename as ename4, u1.cname as cname1, u2.cname as cname2, u3.cname as cname3, u4.cname as cname4 from relayteams
+select relayteams.*, events.ename as evename, events.cname as evcname, u1.cls as cls, u1.number as number1, u2.number as number2, u3.number as number3, u4.number as number4, u1.ename as ename1, u2.ename as ename2, u3.ename as ename3, u4.ename as ename4, u1.cname as cname1, u2.cname as cname2, u3.cname as cname3, u4.cname as cname4, (accepted2 && accepted3 && accepted4) as teamformed from relayteams
 inner join userinfo u1 on relayteams.member1 = u1.id
 inner join userinfo u2 on relayteams.member2 = u2.id
 inner join userinfo u3 on relayteams.member3 = u3.id
@@ -13,13 +15,107 @@ inner join userinfo u4 on relayteams.member4 = u4.id
 inner join events on relayteams.forEv = events.id
 Q
             )) { ?>
-<table>
-
+<h2><?=$lang['label_all_teams']?></h2>
+<div id="teamActions">
+    <?=$lang['label_selected_items']?>
+    <paper-icon-button icon="delete" disabled onclick="dialog14.open();"></paper-icon-button>
+</div>
+<table id="teamsList">
+    <thead>
+        <tr>
+            <th style="width: 2%"><paper-checkbox id="selectAll"></paper-checkbox></th>
+            <th style="width: 8%"><?=$lang['label_team_form']?></th>
+            <th style="width: 3%"><?=$lang['label_class']?></th>
+            <th style="width: 15%"><?=$lang['label_rel_all']?></th>
+            <th style="width: 18%"><?=$lang['label_member_1']?></th>
+            <th style="width: 18%"><?=$lang['label_member_2']?></th>
+            <th style="width: 18%"><?=$lang['label_member_3']?></th>
+            <th style="width: 18%"><?=$lang['label_member_4']?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            while ($row = mysqli_fetch_assoc($res)) { ?>
+        <tr data-class="<?=$row['cls']?>" data-ev="<?=$row['forEv']?>" data-id="<?=$row['id']?>" data-members="<?=implode(",", array($row["member1"], $row["member2"], $row["member3"], $row["member4"]))?>">
+            <td data-th="<?=$lang['label_select']?>"><paper-checkbox></paper-checkbox></td>
+            <td data-th="<?=$lang['label_team_form']?>" class="<?=$row['teamformed'] ? "green-text" : "red-text"?>"><?=$row['teamformed'] ? "<iron-icon icon=\"done\"></iron-icon>$lang[label_yes]" : "<iron-icon icon=\"close\"></iron-icon>$lang[label_no]"?></td>
+            <td data-th="<?=$lang['label_class']?>"><?=$row['cls']?></td>
+            <td data-th="<?=$lang['label_rel_all']?>"><?=$row['evename']?> <?=$row['evcname']?></td>
+            <td class="member" data-seq="1" data-id="<?=$row['member1']?>" data-th="<?=$lang['label_member_1']?>"><?=$row['ename1']?> <?=$row['cname1']?></td>
+            <td class="member<?=$row['accepted2'] == 0 ? " red-text" : ""?>" data-seq="2" data-id="<?=$row['member2']?>" data-th="<?=$lang['label_member_2']?>"><?=$row['ename2']?> <?=$row['cname2']?></td>
+            <td class="member<?=$row['accepted3'] == 0 ? " red-text" : ""?>" data-seq="3" data-id="<?=$row['member3']?>" data-th="<?=$lang['label_member_3']?>"><?=$row['ename3']?> <?=$row['cname3']?></td>
+            <td class="member<?=$row['accepted4'] == 0 ? " red-text" : ""?>" data-seq="4" data-id="<?=$row['member4']?>" data-th="<?=$lang['label_member_4']?>"><?=$row['ename4']?> <?=$row['cname4']?></td>
+        </tr>
+        <?php
+            }
+        ?>
+    </tbody>
 </table>
+<script>
+    $("#selectAll").on("change", function () {
+        $("paper-checkbox:not(#selectAll)").each(function () {
+            $(this).get(0).checked = selectAll.checked;
+        });
+        if ($("paper-checkbox:not(#selectAll)[checked]").length == 0) {
+            $("#teamActions paper-icon-button").each(function () {
+                $(this).get(0).disabled = true;
+            });
+        } else {
+            $("#teamActions paper-icon-button").each(function () {
+                $(this).get(0).disabled = false;
+            });
+        }
+    });
+
+    $("paper-checkbox:not(#selectAll)").change(function () {
+        if ($("paper-checkbox:not(#selectAll)[checked]").length == 0) {
+            $("#teamActions paper-icon-button").each(function () {
+                $(this).get(0).disabled = true;
+            });
+        } else {
+            $("#teamActions paper-icon-button").each(function () {
+                $(this).get(0).disabled = false;
+            });
+        }
+        var domElements = $("paper-checkbox:not(#selectAll)").get();
+        for (var i = 0; i < domElements.length; i++) {
+            if (!domElements[i].checked) {
+                selectAll.checked = false;
+                return null;
+            }
+        }
+        selectAll.checked = true;
+    });
+
+    $("td.member").click(function () {
+        $(dialog13).attr("data-teamid", $(this).parent().data("id"));
+        $(dialog13).attr("data-membernum", $(this).data("seq"));
+        $(dialog13).data("teamid", $(this).parent().data("id"));
+        $(dialog13).data("membernum", $(this).data("seq"));
+        $(dialog13).data("evid", $(this).parent().data("ev"));
+        $.ajax({
+            url: "memberSelector.html",
+            cache: false,
+            method: "POST",
+            data: {
+                s: $(this).data("id"),
+                seq: $(this).data("seq"),
+                t: $(this).parent().data("id")
+            }
+        }).done(function (d) {
+            $("#selectMemberContent").html(d);
+            dialog13.open();
+        });
+    });
+</script>
 <?php
             } else {
                 $result = array('success' => 0, 'error' => array('message' => mysqli_error($mysqli), 'code' => mysqli_errno($mysqli)));
             }
+        } else {
+            http_response_code(403);
         }
+    } else {
+        http_response_code(401);
     }
 ?>

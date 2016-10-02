@@ -10,6 +10,7 @@ $lang = array(
     'modal1_text_1'         => '您確定要刪除項目 ',
     'modal1_text_2'         => '？<span class="red-text">此動作無法復原。</span>',
     'dialog10_text'         => '您確定要刪除此隊伍嗎？此動作無法復原。',
+    'dialog14_text'         => '您確定要刪除這些隊伍嗎？此動作無法復原。',
     'dialog11_title'        => '確認加入隊伍',
     'dialog11_text'         => '您將確認此加入隊伍的請求。此動作一旦成功執行，將無法復原。',
     'modal2_title'          => '編輯項目',
@@ -74,8 +75,10 @@ $lang = array(
     'label_go'              => '進入',
     'stat_title'            => '報名統計',
     'stat_text'             => '您可在報名統計頁面查看所有班別的報名人次統計圖表。',
-    'manage_entries_title'  => '管理報名資料',
-    'manage_entries_text'   => '您可在管理報名資料頁面查閱與編輯所有學生之報名項目。',
+    'manage_entries_title'  => '管理個人項目報名資料',
+    'manage_entries_text'   => '您可在管理報名資料頁面查閱與編輯所有學生之個人項目報名項目。',
+    'manage_relay_title'    => '管理接力項目報名資料',
+    'manage_relay_text'     => '您可在管理報名資料頁面查閱與編輯所有接力隊伍資料。',
     'manage_events_title'   => '管理項目資料',
     'manage_events_text'    => '您可在此處管理報名的項目資料。',
     'label_login'           => '登入',
@@ -99,6 +102,16 @@ $lang = array(
 如您有任何疑問，請在<a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">我們的 Facebook 專頁</a>聯絡我們。<br />
 為您造成不便，我們謹此致歉。',
     'label_number_error'    => '必須為 1 至 35 以內',
+
+    // editRelay.html
+    'label_all_teams'       => '所有接力隊伍',
+    'label_member_1'        => '成員 1',
+    'label_member_2'        => '成員 2',
+    'label_member_3'        => '成員 3',
+    'label_member_4'        => '成員 4',
+    'label_selected_items'  => '已選取項目：',
+    'label_select'          => '選取',
+    'label_set_confirm'     => '已確認加入',
 
     // enroll.html
     'label_select_items'    => '選取報名項目',
@@ -126,14 +139,16 @@ $lang = array(
     'label_not_started'     => '報名時段還沒開始，請稍後再次瀏覽。',
     'label_notes_1'         => '你最多可選取 3 項個人項目，但同一類別的項目最多只可選取兩項。',
     'label_notes_2'         => '接力項目的填寫：請按下上方 [<iron-icon icon="add"></iron-icon> 接力項目] 按鈕以建立接力隊伍並報名參加項目。如需刪除隊伍，請在上方列出的隊伍中，按下 <iron-icon icon="delete"></iron-icon> 進行刪除。請注意，只能刪除由您建立的隊伍。',
-    'label_notes_2a'        => '如您有正在等候回覆的接力隊伍加入請求，請在上方檢視。按右方確認按鈕 <iron-icon icon="done"></iron-icon> 確認加入。若無意參加，請聯絡隊伍建立者。',
+    'label_notes_2a'        => '上方經已列出正在等候您回覆的接力隊伍加入請求。按右方確認按鈕 <iron-icon icon="done"></iron-icon> 確認加入。若無意參加，請聯絡隊伍建立者。',
     'label_notes_3'         => '報名時段：',
     'label_notes_4'         => ' 到 ',
     'label_notes_5'         => '。',
     'date_format'           => 'Y年m月d日, H:i:s', // also used in editEntry.html
+    'label_status'          => '確認狀態',
     'label_confirmed'       => '已確認',
     'label_team_not_formed' => '隊伍未組成',
     'label_team_formed'     => '隊伍已組成',
+    'label_team_form'       => '已組成',
     'label_pending'         => '等候回覆',
     'label_creator'         => '建立者：',
     'label_other_members'   => '其他隊員：',
@@ -158,15 +173,15 @@ $lang = array(
 
     // editEntry.html
     'label_not_found'       => '沒有相符項目。',
-    'label_changing'        => '您正在修改：',
+    'label_changing'        => '修改資料',
     'label_last_updated_a'  => '報名資訊於 ',
     'label_not_updated_a'   => '報名資訊從未更新過。',
     
     // about.html
     'version_title'         => '版本資訊',
-    'version_text'          => '版本 2.0.0-beta<br />
-更新日期 23/08/2016<br />
-&copy; 2015-2016 Kelvin Lee & 沙田循道衛理中學陸/水運會系統。著作權所有，並保留一切權利。',
+    'version_text'          => '版本 2.0.0<br />
+更新日期 29/09/2016<br />
+&copy; 2015-2016 Kelvin Lee。著作權所有，並保留一切權利。',
     'disclaimer_title'      => '免責聲明',
     'disclaimer_text'       => '<b>沙田循道衛理中學陸運會報名系統（「系統」）</b>中的所有資訊均以「現況」形式提供的，並無任何種類的明示或暗示的保證，以及只作一般性質及說明用途。尤其是，對於該等內容的準確性、可靠性、安全性及時間性，系統開發人員概不作任何明示或默示的保證，系統開發人員亦不作出任何明示或暗示保證該等內容適合使用，並無侵權或不含電腦病毒。對該等資料，系統開發人員不會就任何錯誤、遺漏、或錯誤陳述或失實陳述（不論明示或默示的）承擔任何責任。對任何因使用或不當使用或依據系統所載的或經系統的任何資料或不能使用系統而引致或所涉及的任何損失、毀壞或損害（包括但不限於相應而生的損失、毀壞或損害），系統開發人員概不承擔任何法律責任、義務或責任。',
     'privacy_policy_title'  => '隱私政策',

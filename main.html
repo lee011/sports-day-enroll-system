@@ -85,11 +85,18 @@
         </paper-item-body>
     </paper-icon-item>
 <?php if ($a['type'] == "helper" || $a['type'] == "admin") { ?>
-    <paper-icon-item>
+    <paper-icon-item onclick="jQuery(backButton).show(); history.pushState({l:'editIndv'},''); loadEditIndvPage();">
         <iron-icon item-icon icon="list"></iron-icon>
         <paper-item-body two-line>
             <div><?=$lang['manage_entries_title']?></div>
             <div secondary><?=$lang['manage_entries_text']?></div>
+        </paper-item-body>
+    </paper-icon-item>
+    <paper-icon-item onclick="jQuery(backButton).show(); history.pushState({l:'editRelay'},''); loadEditRelayPage();">
+        <iron-icon item-icon icon="list"></iron-icon>
+        <paper-item-body two-line>
+            <div><?=$lang['manage_relay_title']?></div>
+            <div secondary><?=$lang['manage_relay_text']?></div>
         </paper-item-body>
     </paper-icon-item>
 <?php

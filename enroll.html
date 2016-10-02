@@ -2,6 +2,7 @@
 session_set_cookie_params(0, "/sportsDay/");
 session_start();
 include_once "lang/loadLanguage.html";
+require "http_response_code.html";
 if (isset($_SESSION['username'])) {
     $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
     mysqli_query($mysqli,"SET NAMES 'utf8'");
@@ -61,7 +62,7 @@ if ($expired) {
 }
 ?>
 <p><?php if ($d == "") { echo $lang['label_not_updated']; } else { ?><?=$lang['label_last_updated_1']?><?=date_format($d, $lang['date_format'])?><?=$lang['label_last_updated_2']?><?php } ?></p>
-<paper-dropdown-menu id="firstiev" class="entryInput" label="<?=$lang['label_indv_first']?>" <?php if ($expired) echo " disabled"; ?>>
+<paper-dropdown-menu id="firstiev" class="entryInput<?php if ($expired) echo " expired"; ?>" label="<?=$lang['label_indv_first']?>" <?php if ($expired) echo " disabled"; ?>>
     <?php
         $si = 0;
         if ($indv[0] != "") {
@@ -86,7 +87,7 @@ if ($expired) {
         ?>
     </paper-listbox>
 </paper-dropdown-menu>
-<paper-dropdown-menu id="secondiev" class="entryInput" label="<?=$lang['label_indv_second']?>" <?php if ($indv[0] == '' || $expired) echo " disabled"; ?>>
+<paper-dropdown-menu id="secondiev" class="entryInput<?php if ($expired) echo " expired"; ?>" label="<?=$lang['label_indv_second']?>" <?php if ($indv[0] == '' || $expired) echo " disabled"; ?>>
     <?php
         $si = 0;
         if ($indv[1] != "") {
@@ -111,7 +112,7 @@ if ($expired) {
         ?>
     </paper-listbox>
 </paper-dropdown-menu>
-<paper-dropdown-menu id="thirdiev" class="entryInput" label="<?=$lang['label_indv_third']?>" <?php if ($indv[1] == '' || $expired) echo " disabled"; ?>>
+<paper-dropdown-menu id="thirdiev" class="entryInput<?php if ($expired) echo " expired"; ?>" label="<?=$lang['label_indv_third']?>" <?php if ($indv[1] == '' || $expired) echo " disabled"; ?>>
     <?php
         $si = 0;
         if ($indv[2] != "") {
@@ -222,12 +223,12 @@ Q
             </div>
         </paper-item-body>
         <?php if ($team['member1'] == $a['id']) { ?>
-        <paper-icon-button icon="delete" onclick="dialog10.open()"></paper-icon-button>
+        <paper-icon-button icon="delete" onclick="dialog10.open()"<?php if ($expired) echo " disabled"; ?>></paper-icon-button>
         <?php } ?>
         <?php if (($team['member2'] == $a['id'] && $team['accepted2'] == 0) ||
                         ($team['member3'] == $a['id'] && $team['accepted3'] == 0) ||
                         ($team['member4'] == $a['id'] && $team['accepted4'] == 0)) { ?>
-        <paper-icon-button icon="done" onclick="dialog11.open()"></paper-icon-button>
+        <paper-icon-button icon="done" onclick="dialog11.open()"<?php if ($expired) echo " disabled"; ?>></paper-icon-button>
         <?php } ?>
     </paper-item>
     <?php
@@ -253,6 +254,6 @@ Q
         }
     }
 } else {
-    http_response_code(403);
+    http_response_code(401);
 }
 ?>

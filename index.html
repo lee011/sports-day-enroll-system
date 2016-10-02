@@ -122,6 +122,16 @@ $i = rand(1, 8);
             .red-text iron-icon {
                 --iron-icon-fill-color: var(--paper-red-500);
             }
+
+        td paper-button {
+            color: #000 !important;
+            padding: 0;
+        }
+
+        paper-checkbox {
+            --paper-checkbox-checked-color: var(--paper-red-500);
+            --paper-checkbox-checked-ink-color: var(--paper-red-500);
+        }
     </style>
     <?php include_once "lang/loadLanguageScript.html" ?>
     <script src="script.min.js"></script>
@@ -144,7 +154,7 @@ $i = rand(1, 8);
                     <paper-item onclick="location.replace('lang/setLanguage.html?langcode=zh')">中文</paper-item>
                 </paper-menu>
             </paper-menu-button>
-            <paper-progress class="fit" id="progressBar" indeterminate></paper-progress>
+            <paper-progress class="bottom fit" id="progressBar" indeterminate></paper-progress>
         </paper-toolbar>
         <div id="mainContent">
 
@@ -248,6 +258,26 @@ $i = rand(1, 8);
         </paper-dialog-scrollable>
         <div class="buttons">
             <paper-button dialog-confirm><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog13" data-membernum="" data-teamid="" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['label_team_member']?></h2>
+        <div id="selectMemberContent">
+            
+        </div>
+        <div class="buttons">
+            <paper-button dialog-dismiss autofocus><?=$lang['label_cancel']?></paper-button>
+            <paper-button onclick="updateRelayTeam()"><?=$lang['label_ok']?></paper-button>
+        </div>
+    </paper-dialog>
+    <paper-dialog id="dialog14" modal entry-animation="fade-in-animation" exit-animation="fade-out-animation" with-backdrop>
+        <h2><?=$lang['modal1_title']?></h2>
+        <div>
+            <?=$lang['dialog14_text']?>
+        </div>
+        <div class="buttons">
+            <paper-button dialog-dismiss autofocus><?=$lang['label_no']?></paper-button>
+            <paper-button dialog-confirm onclick="deleteTeams();"><?=$lang['label_yes']?></paper-button>
         </div>
     </paper-dialog>
 </body>

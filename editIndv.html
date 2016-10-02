@@ -1,0 +1,76 @@
+﻿<?php
+    session_set_cookie_params(0, "/sportsDay/"); session_start();
+    include_once "lang/loadLanguage.html";
+    require "http_response_code.html";
+    if (isset($_SESSION['username'])) {
+        if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'helper') {
+            $mysqli = mysqli_connect('lee011.kmdns.net', 'guest', '', 'sportsday', 3306, 'MySQL');
+            mysqli_query($mysqli,"SET NAMES 'utf8'");
+?>
+<h2><?=$lang['manage_entries_title']?></h2>
+<p><?=$lang['label_choose_ppl']?></p>
+<paper-dropdown-menu label="<?=$lang['label_class']?>" id="c" style="width: 80px; display: inline-block">
+    <paper-listbox class="dropdown-content">
+        <paper-item>1A</paper-item>
+        <paper-item>1B</paper-item>
+        <paper-item>1C</paper-item>
+        <paper-item>1D</paper-item>
+        <paper-item>2A</paper-item>
+        <paper-item>2B</paper-item>
+        <paper-item>2C</paper-item>
+        <paper-item>2D</paper-item>
+        <paper-item>3A</paper-item>
+        <paper-item>3B</paper-item>
+        <paper-item>3C</paper-item>
+        <paper-item>3D</paper-item>
+        <paper-item>4A</paper-item>
+        <paper-item>4B</paper-item>
+        <paper-item>4C</paper-item>
+        <paper-item>4D</paper-item>
+        <paper-item>5A</paper-item>
+        <paper-item>5B</paper-item>
+        <paper-item>5C</paper-item>
+        <paper-item>5D</paper-item>
+        <paper-item>6A</paper-item>
+        <paper-item>6B</paper-item>
+        <paper-item>6C</paper-item>
+        <paper-item>6D</paper-item>
+    </paper-listbox>
+</paper-dropdown-menu>
+<paper-input label="<?=$lang['label_number']?>" auto-validate error-message="<?=$lang['label_number_error']?>" allowed-pattern="[0-9]*" max="35" min="1" id="n" type="number" style="width: 80px; display: inline-block"></paper-input><br />
+<paper-button raised onclick="loadEntries()">
+    <iron-icon icon="create"></iron-icon>
+    <?=$lang['label_ok']?>
+</paper-button>
+<paper-button raised onclick="location.href = 'outputEntries.html'">
+    <iron-icon icon="file-upload"></iron-icon>
+    <?=$lang['label_export']?>
+</paper-button>
+<div id="editArea"></div>
+<script>
+    function loadEntries() {
+        if (!c.invalid && !n.invalid) {
+            $.ajax({
+                url: 'enrollA.html',
+                cache: false,
+                method: 'POST',
+                data: {
+                    c: c.value,
+                    n: n.value
+                }
+            }).done(function (d) {
+                $(editArea).html(d);
+            });
+        } else {
+            dialog3.open();
+        }
+    }
+</script>
+<?php
+        } else {
+            http_response_code(403);
+        }
+    } else {
+        http_response_code(401);
+    }
+?>

@@ -129,6 +129,16 @@ $(function () {
                 document.title = lang.stat_title + " - " + lang.title;
                 loadStatPage();
                 break;
+            case "editRelay":
+                jQuery(backButton).show();
+                document.title = lang.manage_entry_title + " - " + lang.title;
+                loadEditRelayPage();
+                break;
+            case "editIndv":
+                jQuery(backButton).show();
+                document.title = lang.manage_entry_title + " - " + lang.title;
+                loadEditIndvPage();
+                break;
         }
     }
     window.onpopstate = function (e) {
@@ -153,10 +163,20 @@ $(function () {
                     document.title = lang.stat_title + " - " + lang.title;
                     loadStatPage();
                     break;
+                case "editRelay":
+                    jQuery(backButton).show();
+                    document.title = lang.manage_entry_title + " - " + lang.title;
+                    loadEditRelayPage();
+                    break;
+                case "editIndv":
+                    jQuery(backButton).show();
+                    document.title = lang.manage_entry_title + " - " + lang.title;
+                    loadEditIndvPage();
+                    break;
             }
         }
     }
-    $(document.body).on("iron-select", "#firstiev", function () {
+    $(document.body).on("iron-select", "#firstiev:not(.expired)", function () {
         if (firstiev.contentElement.selected == 0 && !reset) {
             firstiev.contentElement.selected = secondiev.contentElement.selected;
             secondiev.contentElement.selected = thirdiev.contentElement.selected;
@@ -166,7 +186,7 @@ $(function () {
         thirdiev.disabled = (secondiev.contentElement.selected == 0);
         validateEntries();
     });
-    $(document.body).on("iron-select", "#secondiev", function () {
+    $(document.body).on("iron-select", "#secondiev:not(.expired)", function () {
         if (secondiev.contentElement.selected == 0 && !reset) {
             secondiev.contentElement.selected = thirdiev.contentElement.selected;
             thirdiev.contentElement.selected = 0;
@@ -204,6 +224,16 @@ function refreshCurrent() {
                 document.title = lang.stat_title + " - " + lang.title;
                 loadStatPage();
                 break;
+            case "editRelay":
+                jQuery(backButton).show();
+                document.title = lang.manage_entry_title + " - " + lang.title;
+                loadEditRelayPage();
+                break;
+            case "editIndv":
+                jQuery(backButton).show();
+                document.title = lang.manage_entry_title + " - " + lang.title;
+                loadEditIndvPage();
+                break;
         }
     }
 }
@@ -239,7 +269,7 @@ function loadEnrollPage() {
         }).fail(function (e, f, g) {
             $(progressBar).fadeOut(200);
             switch (e.status) {
-                case 403:
+                case 401:
                     toast.text = loggedin ? lang.timeout : lang.login_required;
                     toast.open();
                     loadMainPage();
@@ -270,10 +300,80 @@ function loadStatPage() {
         }).fail(function (e, f, g) {
             $(progressBar).fadeOut(200);
             switch (e.status) {
-                case 403:
+                case 401:
                     toast.text = loggedin ? lang.timeout : lang.login_required;
                     toast.open();
                     loadMainPage();
+                    break;
+                case 404:
+                    toast.text = lang.network_error;
+                    toast.open();
+                    break;
+                case 500:
+                    toast.text = lang.system_error;
+                    toast.open();
+                    break;
+            }
+        });
+    });
+}
+
+function loadEditRelayPage() {
+    document.title = lang.manage_entry_title + " - " + lang.title;
+    $(progressBar).fadeIn(200);
+    $("#mainContent").fadeOut(200, function () {
+        $.ajax({
+            url: "editRelay.html",
+            cache: false
+        }).done(function (d) {
+            $(progressBar).fadeOut(200);
+            $(mainContent).html(d).fadeIn(200);
+        }).fail(function (e, f, g) {
+            $(progressBar).fadeOut(200);
+            switch (e.status) {
+                case 401:
+                    toast.text = loggedin ? lang.timeout : lang.login_required;
+                    toast.open();
+                    loadMainPage();
+                    break;
+                case 403:
+                    toast.text = lang.page_no_priv;
+                    toast.open();
+                    break;
+                case 404:
+                    toast.text = lang.network_error;
+                    toast.open();
+                    break;
+                case 500:
+                    toast.text = lang.system_error;
+                    toast.open();
+                    break;
+            }
+        });
+    });
+}
+
+function loadEditIndvPage() {
+    document.title = lang.manage_entry_title + " - " + lang.title;
+    $(progressBar).fadeIn(200);
+    $("#mainContent").fadeOut(200, function () {
+        $.ajax({
+            url: "editIndv.html",
+            cache: false
+        }).done(function (d) {
+            $(progressBar).fadeOut(200);
+            $(mainContent).html(d).fadeIn(200);
+        }).fail(function (e, f, g) {
+            $(progressBar).fadeOut(200);
+            switch (e.status) {
+                case 401:
+                    toast.text = loggedin ? lang.timeout : lang.login_required;
+                    toast.open();
+                    loadMainPage();
+                    break;
+                case 403:
+                    toast.text = lang.page_no_priv;
+                    toast.open();
                     break;
                 case 404:
                     toast.text = lang.network_error;
@@ -417,6 +517,20 @@ function checkRelayTeam() {
     return statusEnum.ok;
 }
 
+function checkUpdateRelayTeam() {
+    var x = $("#teamsList tr[data-id=" + $(dialog13).data('teamid') + "]").attr("data-members");
+    var sp = x.split(",");
+    var i;
+    for (i = 0; i < sp.length; i++) {
+        if (i + 1 != $(dialog13).data('membernum')) {
+            if ($($(".memberSelectX").get(0).selectedItem).data("id") == sp[i]) {
+                return statusEnum.duplicated;
+            }
+        }
+    }
+    return statusEnum.ok;
+}
+
 function checkEntries() {
     var first$ = jQuery(firstiev.selectedItem);
     var second$ = jQuery(secondiev.selectedItem);
@@ -529,6 +643,42 @@ function sendEntries() {
     }
 }
 
+function sendEntriesA() {
+    var result;
+    if ((result = checkEntries()) == statusEnum.ok) {
+        var first$ = jQuery(firstiev.selectedItem);
+        var second$ = jQuery(secondiev.selectedItem);
+        var third$ = jQuery(thirdiev.selectedItem);
+        $(progressBar).fadeIn(200);
+        $.ajax({
+            url: "handleEnrollA.html",
+            method: "POST",
+            data: {
+                firstiev: first$.data("id"),
+                secondiev: second$.data("id"),
+                thirdiev: third$.data("id"),
+                id: $(editArea).data("id"),
+                rev: "",
+                locked: "0",
+                lockpwd: ""
+            },
+            dataType: "json"
+        }).done(function (d) {
+            if (d.success == 1) {
+                toast.text = lang.item_updated;
+                toast.open();
+                refreshCurrent();
+            } else {
+                $(progressBar).fadeOut(200);
+                toast.text = lang.error + '(' + d.error.code + ')' + d.error.message;
+                toast.open();
+            }
+        });
+    } else {
+        showEntryErrorDialog(result);
+    }
+}
+
 function sendRelayTeam() {
     var result;
     if ((result = checkRelayTeam()) == statusEnum.ok) {
@@ -552,6 +702,46 @@ function sendRelayTeam() {
                 toast.open();
                 refreshCurrent();
                 dialog8.close();
+            } else if (d.success == -1) {
+                $(progressBar).fadeOut(200);
+                showRelayTeamErrorDialog(statusEnum.registered);
+            } else {
+                $(progressBar).fadeOut(200);
+                toast.text = lang.error + '(' + d.error.code + ')' + d.error.message;
+                toast.open();
+            }
+        });
+    } else {
+        showRelayTeamErrorDialog(result);
+    }
+}
+
+function updateRelayTeam() {
+    var result;
+    if ((result = checkUpdateRelayTeam()) == statusEnum.ok) {
+        var domMember = jQuery(".memberSelectX").get(0);
+        var a = 0;
+        if ($(dialog13).data("membernum") != 1) {
+            a = statusSelect.contentElement.selected
+        }
+        $(progressBar).fadeIn(200);
+        $.ajax({
+            url: "updateMember.html",
+            method: "POST",
+            data: {
+                ev: $(dialog13).data("evid"),
+                sid: $(domMember.selectedItem).data("id"),
+                tid: $(dialog13).data("teamid"),
+                membernum: $(dialog13).data("membernum"),
+                accepted: a
+            },
+            dataType: "json"
+        }).done(function (d) {
+            if (d.success == 1) {
+                toast.text = lang.item_updated;
+                toast.open();
+                refreshCurrent();
+                dialog13.close();
             } else if (d.success == -1) {
                 $(progressBar).fadeOut(200);
                 showRelayTeamErrorDialog(statusEnum.registered);
@@ -672,4 +862,31 @@ function resetEntry() {
     secondiev.contentElement.selected = 0;
     thirdiev.contentElement.selected = 0;
     reset = false;
+}
+
+function deleteTeams() {
+    var x = "";
+    $("paper-checkbox:not(#selectAll)[checked]").parent().parent().each(function () {
+        x += $(this).data("id") + ",";
+    });
+    x = x.substr(0, x.length - 1);
+    $(progressBar).fadeIn(200);
+    $.ajax({
+        url: "deleteRelayTeamBatch.html",
+        method: "POST",
+        data: {
+            id: x,
+        },
+        dataType: "json"
+    }).done(function (d) {
+        if (d.success == 1) {
+            toast.text = lang.item_deleted;
+            toast.open();
+            refreshCurrent();
+        } else {
+            $(progressBar).fadeOut(200);
+            toast.text = lang.error + '(' + d.error.code + ')' + d.error.message;
+            toast.open();
+        }
+    });
 }

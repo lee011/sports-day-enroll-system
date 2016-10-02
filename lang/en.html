@@ -10,6 +10,7 @@ $lang = array(
     'modal1_text_1'         => 'Are you sure to delete the item ',
     'modal1_text_2'         => '? <span class="red-text">This action cannot be undone.</span>',
     'dialog10_text'         => 'Are you sure to delete this team? This action cannot be undone.',
+    'dialog14_text'         => 'Are you sure to delete these teams? This action cannot be undone.',
     'dialog11_title'        => 'Confirm Joining Team',
     'dialog11_text'         => 'You will accept this team joining request. This action cannot be undone after success.',
     'modal2_title'          => 'Edit Item',
@@ -74,8 +75,10 @@ Note: The secured connection does not support Windows XP (Except Firefox) or And
     'label_go'              => 'Go',
     'stat_title'            => 'Enrollment Stats',
     'stat_text'             => 'You can view the enroll count of all classes in the stats page.',
-    'manage_entries_title'  => 'Manage Entries',
-    'manage_entries_text'   => 'You can view and edit all students\' entries in the manage entries page.',
+    'manage_entries_title'  => 'Manage Individual Entries',
+    'manage_entries_text'   => 'You can view and edit all students\' entries of individual events in the manage entries page.',
+    'manage_relay_title'    => 'Manage Relay Entries',
+    'manage_relay_text'     => 'You can view and edit all relay teams in the manage relay teams page.',
     'manage_events_title'   => 'Manage Events',
     'manage_events_text'    => 'You can manage events that can be enrolled.',
     'label_login'           => 'Login',
@@ -91,7 +94,7 @@ Note: The secured connection does not support Windows XP (Except Firefox) or And
     'label_a_grade'         => 'A', // also used in editEntry.html
     'label_b_grade'         => 'B', // also used in editEntry.html
     'label_c_grade'         => 'C', // also used in editEntry.html
-    'label_no_grade'         => '(No grade specified)', // also used in editEntry.html
+    'label_no_grade'        => '(No grade specified)', // also used in editEntry.html
     'helper_title'          => 'Apply for Officials',
     'helper_text'           => 'You can apply for officials in the apply page.',
     'label_name1'           => 'Name', // also used in editEntry.html
@@ -99,6 +102,16 @@ Note: The secured connection does not support Windows XP (Except Firefox) or And
 If you have enquiries, please contact us on <a href="https://www.facebook.com/STMCSportsEventSystems/" target="_blank">our Facebook page</a>.<br />
 We apologize for any inconvenience caused.',
     'label_number_error'    => 'Must within 1 and 35',
+
+    // editRelay.html
+    'label_all_teams'       => 'All Relay Teams',
+    'label_member_1'        => 'Member 1',
+    'label_member_2'        => 'Member 2',
+    'label_member_3'        => 'Member 3',
+    'label_member_4'        => 'Member 4',
+    'label_selected_items'  => 'Selected Items:',
+    'label_select'          => 'Select',
+    'label_set_confirm'     => 'Confirmed joining',
 
     // enroll.html
     'label_select_items'    => 'Select Items',
@@ -126,14 +139,16 @@ We apologize for any inconvenience caused.',
     'label_not_started'     => 'Enrollment period not started yet. Please try again later.',
     'label_notes_1'         => 'You can choose at most 3 individual events, but only at most 2 events of same type can be chosen.',
     'label_notes_2'         => 'Enrolling in relay events: Click on the <iron-icon icon="add"></iron-icon> Relay Events button to create relay team and enroll in the event. If you want to delete a team, click on the <iron-icon icon="delete"></iron-icon> next to the team item. You can delete teams created by you only.',
-    'label_notes_2a'         => 'If you have pending team joining requests, please review on the above. Click on the confirm button <iron-icon icon="done"></iron-icon> to confirm joining. If you do not want to join, please contact the creator of the team.',
+    'label_notes_2a'         => 'All your pending team joining requests are listed above. Click on the confirm button <iron-icon icon="done"></iron-icon> to confirm joining. If you do not want to join, please contact the creator of the team.',
     'label_notes_3'         => 'Enrollment period: From ',
     'label_notes_4'         => ' to ',
     'label_notes_5'         => '.',
     'date_format'           => 'd/m/Y, H:i:s', // also used in editEntry.html
+    'label_status'          => 'Confirmation Status',
     'label_confirmed'       => 'Confirmed',
     'label_team_not_formed' => 'Team not formed',
     'label_team_formed'     => 'Team formed',
+    'label_team_form'       => 'Formed',
     'label_pending'         => 'Pending',
     'label_creator'         => 'Created by: ',
     'label_other_members'   => 'Other members:',
@@ -158,15 +173,15 @@ If you are not the creator of the team:<br />
 
     // editEntry.html
     'label_not_found'       => 'No matching items found.',
-    'label_changing'        => 'You are modifying:',
+    'label_changing'        => 'Modify Entries',
     'label_last_updated_a'  => 'Entries last updated at ',
     'label_not_updated_a'   => 'Entries have not been updated yet.',
     
     // about.html
     'version_title'         => 'Version',
-    'version_text'          => 'Ver. 2.0.0-beta<br />
-Updated on 23/08/2016<br />
-&copy; 2015-2016 Kelvin Lee & STMCSES. All rights reserved.',
+    'version_text'          => 'Ver. 2.0.0<br />
+Updated on 29/09/2016<br />
+&copy; 2015-2016 Kelvin Lee. All rights reserved.',
     'disclaimer_title'      => 'Disclaimer',
     'disclaimer_text'       => 'The information on <b>Sha Tin Methodist College Sports Day Enrollment System ("The System")</b> is provided to you on an "AS IS" basis without any express or implied warranty of any kind and is provided for a general, indicative purpose only.  In particular, the developers does not make any express or implied warranty as to the accuracy, fitness for a particular purpose, non-infringement, reliability, security, timeliness or freedom from computer virus in relation to such contents.  The developers will not be liable for any errors in, omissions from, or misstatements or misrepresentations (whether express or implied) concerning any such information, and will not have or accept any liability, obligation or responsibility whatsoever for any loss, destruction or damage (including without limitation consequential loss, destruction or damage) however arising from or in respect of any use or misuse of or reliance on the information delivered on the system or inability to use the system.',
     'privacy_policy_title'  => 'Privacy Policy',
